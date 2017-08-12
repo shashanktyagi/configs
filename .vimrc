@@ -1,3 +1,4 @@
+" B
 " vim-plug (https://github.com/junegunn/vim-plug) settings 
 " Automatically install vim-plug and run PlugInstall if vim-plug not found
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -8,6 +9,8 @@ endif
 
 
 call plug#begin('~/.vim/plugged')
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'matze/vim-move'
 Plug 'tpope/vim-fugitive'
@@ -15,13 +18,19 @@ Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'dikiaap/minimalist'
 Plug 'ervandew/supertab'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'scrooloose/syntastic'
+Plug 'whatyouhide/vim-gotham'
+
 " All of your Plugins must be added before the following line
 call plug#end()
 " General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set laststatus=2
+
 set t_Co=256
 syntax on
-colorscheme minimalist
+colorscheme gotham256
 
 set encoding=utf8
 
@@ -36,6 +45,7 @@ map <C-l> <C-W>l
 
 
 " Enable filetype plugins
+filetype on
 filetype plugin on
 filetype indent on
 
@@ -102,21 +112,32 @@ set shiftwidth=4
 set tabstop=4
 
 
+nnoremap <silent> <esc> :noh<cr><esc>
 
-
+set noshowmode
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins settings:
+let g:airline_theme='simple'
+
+let g:airline#extensions#tabline#enabled = 1
 
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
 noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>
 
-let g:move_key_modifier = 'C'
 
+"let g:move_key_modifier = 'C'
 map <C-n> :NERDTreeToggle<CR>
 
+let g:bufExplorerDefaultHelp=0
+let g:bufExplorerShowRelativePath=1
+let g:bufExplorerFindActive=1
+let g:bufExplorerSortBy='name'
+map <leader>o :BufExplorer<cr>
+
+let g:syntastic_python_checkers=['pyflakes']
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
