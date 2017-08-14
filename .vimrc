@@ -9,6 +9,7 @@ endif
 
 
 call plug#begin('~/.vim/plugged')
+Plug 'hdima/python-syntax'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'terryma/vim-smooth-scroll'
@@ -111,6 +112,21 @@ set smarttab
 set shiftwidth=4
 set tabstop=4
 
+"close the current buffer
+map <leader>bd :Bclose<cr>:tabclose<cr>gT
+
+" Close all the buffers
+map <leader>ba :bufdo bd<cr>
+
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+" Useful mappings for managing tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove 
+map <leader>t<leader> :tabnext 
 
 nnoremap <silent> <esc> :noh<cr><esc>
 
@@ -118,6 +134,9 @@ set noshowmode
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins settings:
+
+let python_highlight_all = 1
+
 let g:airline_theme='simple'
 
 let g:airline#extensions#tabline#enabled = 1
