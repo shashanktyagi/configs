@@ -1,4 +1,3 @@
-" B
 " vim-plug (https://github.com/junegunn/vim-plug) settings 
 " Automatically install vim-plug and run PlugInstall if vim-plug not found
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -9,6 +8,7 @@ endif
 
 
 call plug#begin('~/.vim/plugged')
+Plug 'kien/ctrlp.vim'
 Plug 'hdima/python-syntax'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -27,11 +27,20 @@ Plug 'whatyouhide/vim-gotham'
 call plug#end()
 " General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" indent code 
+vnoremap < <gv
+vnoremap > >gv
+
+
+set nobackup
+set nowb
+set noswapfile
+
 set laststatus=2
 
 set t_Co=256
 syntax on
-colorscheme gotham256
+colorscheme gotham
 
 set encoding=utf8
 
@@ -57,6 +66,8 @@ set autoread
 " like <leader>w saves the current file
 let mapleader = ","
 let g:mapleader = ","
+
+nnoremap <leader>p oimport ipdb;ipdb.set_trace()<Esc>
 
 " Marker for change, replace etc.
 set cpoptions+=$
@@ -113,7 +124,7 @@ set shiftwidth=4
 set tabstop=4
 
 "close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
+map <leader>bd :bd<cr>
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
@@ -126,7 +137,8 @@ map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove 
-map <leader>t<leader> :tabnext 
+map <leader>m <Esc>:tabnext<cr> 
+map <leader>n <Esc>:tabprevious<cr> 
 
 nnoremap <silent> <esc> :noh<cr><esc>
 
@@ -134,6 +146,10 @@ set noshowmode
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins settings:
+
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 
 let python_highlight_all = 1
 
@@ -157,8 +173,11 @@ let g:bufExplorerSortBy='name'
 map <leader>o :BufExplorer<cr>
 
 let g:syntastic_python_checkers=['pyflakes']
-
-
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+nnoremap <leader>lc :lclose<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Autoload vimrc on change
 
