@@ -192,3 +192,5 @@ inoremap " ""<esc>i
 inoremap [ []<esc>i
 
 colorscheme gotham
+au InsertEnter * silent execute "!echo -en \<esc>[5 q"
+au InsertLeave * silent execute "!echo -en \<esc>[1 q"
