@@ -1,4 +1,4 @@
-"":Ai:Aiplug (https://github.com/junegunn/vim-plug) settings
+
 " Automatically install vim-plug and run PlugInstall if vim-plug not found
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -14,8 +14,8 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'bronson/vim-trailing-whitespace'
+Plug 'flazz/vim-colorschemes'
+Plug 'tpope/vim-surround'
 Plug 'kien/ctrlp.vim'
 Plug 'hdima/python-syntax'
 Plug 'vim-airline/vim-airline'
@@ -26,11 +26,9 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'ervandew/supertab'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'scrooloose/syntastic'
-Plug 'whatyouhide/vim-gotham'
-
+Plug 'bronson/vim-trailing-whitespace'
 " All of your Plugins must be added before the following line
 call plug#end()
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins settings:
 
@@ -40,7 +38,7 @@ let g:ctrlp_cmd = 'CtrlP'
 
 let python_highlight_all = 1
 
-let g:airline_theme='base16_embers'
+let g:airline_theme='base16_eighties'
 
 let g:airline#extensions#tabline#enabled = 1
 
@@ -60,65 +58,16 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
 " General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-" Enable filetype plugins
+set nocompatible
 filetype on
 filetype plugin on
 filetype indent on
 
-" Set to auto read when a file is changed from the outside
+set cc=80
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = ","
-let g:mapleader = ","
-
-nnoremap <leader>p oimport ipdb;ipdb.set_trace()<Esc>
-
-map <leader>pp :setlocal paste!<cr>
-
-
-"close the current buffer
-map <leader>bd :bd<cr>
-
-" Close all the buffers
-map <leader>ba :bufdo bd<cr>
-
-map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
-
-" Useful mappings for managing tabs
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove
-map <leader>m :tabnext<cr>
-map <leader>n :tabprevious<cr>
-
-"Run macro in resgiter q"
-map <leader><leader> @q
-
-noremap <leader>w :w<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Enter to insert new empty line after current line
-nnoremap <cr> o<esc>k
-
-
-
-set autoread
-
-" indent code
-vnoremap < <gv
-vnoremap > >gv
-
+set splitright
 
 set nobackup
 set nowb
@@ -128,24 +77,31 @@ set laststatus=2
 
 set t_Co=256
 syntax on
-colorscheme gotham
 
 set encoding=utf8
 
 " Sets how many lines of history VIM has to remember
 set history=500
 
-" remove highlight
-nnoremap <silent> <esc> :noh<cr><esc>
+
+" Enable filetype plugins
+
+" Set to auto read when a file is changed from the outside
+set autoread
+
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = ","
+let g:mapleader = ","
+
+nnoremap <leader>b oimport ipdb;ipdb.set_trace()<Esc>
 
 " Marker for change, replace etc.
 set cpoptions+=$
-
-" set relative numbers and current line number
+syntax on
 set relativenumber
 set number
 set numberwidth=3
-
 
 " Always show current position
 set ruler
@@ -191,19 +147,48 @@ set smarttab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
+set smartindent
 
+set cursorline
 
 set noshowmode
+"close the current buffer
+map <leader>bd :bd<cr>
+
+" Close all the buffers
+map <leader>ba :bufdo bd<cr>
+
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+" Useful mappings for managing tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove
+map <leader>m :tabnext<cr>
+map <leader>n :tabprevious<cr>
+
+map <leader>pp :setlocal paste!<cr>
+nnoremap <leader>w :w<cr>
 
 
-" move view pane 10 lines at a time
-noremap <C-e> 10<C-e>
-noremap <C-y> 10<C-y>
+nnoremap <silent> <esc> :noh<cr><esc>
 
-" auto-complete braces and quotes
-inoremap ( ()<Esc>i
-inoremap ' ''<Esc>i
-inoremap " ""<Esc>i
+nnoremap <C-e> 10<C-e>
+nnoremap <C-y> 10<C-y>
 
-set colorcolumn=80
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+" indent code
+vnoremap < <gv
+vnoremap > >gv
 
+inoremap ( ()<esc>i
+inoremap ' ''<esc>i
+inoremap " ""<esc>i
+inoremap [ []<esc>i
+
+colorscheme gotham
