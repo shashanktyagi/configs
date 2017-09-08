@@ -38,7 +38,7 @@ let g:ctrlp_cmd = 'CtrlP'
 
 let python_highlight_all = 1
 
-let g:airline_theme='base16_eighties'
+let g:airline_theme='jellybeans'
 
 let g:airline#extensions#tabline#enabled = 1
 
@@ -60,12 +60,11 @@ let g:syntastic_check_on_wq = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible
 filetype on
 filetype plugin on
 filetype indent on
+set nocompatible
 
-set cc=80
 
 set splitright
 
@@ -151,6 +150,8 @@ set smartindent
 
 set cursorline
 
+set cc=80
+
 set noshowmode
 "close the current buffer
 map <leader>bd :bd<cr>
@@ -191,6 +192,8 @@ inoremap ' ''<esc>i
 inoremap " ""<esc>i
 inoremap [ []<esc>i
 
-colorscheme gotham
-au InsertEnter * silent execute "!echo -en \<esc>[5 q"
-au InsertLeave * silent execute "!echo -en \<esc>[1 q"
+try
+    colorscheme minimalist
+catch
+endtry
+
