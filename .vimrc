@@ -55,8 +55,8 @@ map <leader>o :BufExplorer<cr>
 let g:syntastic_python_checkers=['pyflakes']
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -187,13 +187,11 @@ nnoremap <C-l> <C-w>l
 vnoremap < <gv
 vnoremap > >gv
 
-inoremap ( ()<esc>i
-inoremap ' ''<esc>i
-inoremap " ""<esc>i
-inoremap [ []<esc>i
 
 try
     colorscheme minimalist
 catch
 endtry
 
+au InsertEnter * silent execute "!echo -en \<esc>[5 q"
+au InsertLeave * silent execute "!echo -en \<esc>[2 q"
