@@ -73,8 +73,11 @@ set nowb
 set noswapfile
 
 set laststatus=2
+" Enable 256 colors palette in Gnome Terminal
+if $COLORTERM == 'gnome-terminal'
+    set t_Co=256
+endif
 
-set t_Co=256
 syntax on
 
 set encoding=utf8
