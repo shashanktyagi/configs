@@ -14,13 +14,13 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
+Plug 'jiangmiao/auto-pairs'
+Plug 'honza/vim-snippets'
 Plug 'flazz/vim-colorschemes'
-Plug 'tpope/vim-surround'
 Plug 'kien/ctrlp.vim'
 Plug 'hdima/python-syntax'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'ervandew/supertab'
@@ -42,15 +42,10 @@ let g:airline_theme='jellybeans'
 
 let g:airline#extensions#tabline#enabled = 1
 
-
+let g:SuperTabDefaultCompletionType = "context"
 
 map <C-n> :NERDTreeToggle<CR>
 
-let g:bufExplorerDefaultHelp=0
-let g:bufExplorerShowRelativePath=1
-let g:bufExplorerFindActive=1
-let g:bufExplorerSortBy='name'
-map <leader>o :BufExplorer<cr>
 
 let g:syntastic_python_checkers=['pyflakes']
 let g:syntastic_always_populate_loc_list = 1
@@ -65,6 +60,8 @@ filetype plugin on
 filetype indent on
 set nocompatible
 
+" solve delays in O
+set timeout timeoutlen=3000 ttimeoutlen=100
 
 set splitright
 
@@ -176,11 +173,15 @@ map <leader>n :tabprevious<cr>
 map <leader>pp :setlocal paste!<cr>
 nnoremap <leader>w :w<cr>
 
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
 
-nnoremap <silent> <esc> :noh<cr><esc>
+nnoremap <silent> <cr> :noh<cr><esc>
 
-nnoremap <C-e> 10<C-e>
-nnoremap <C-y> 10<C-y>
+nnoremap <C-e> <C-e><C-e>
+nnoremap <C-y> <C-y><C-y>
 
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -198,3 +199,4 @@ endtry
 
 au InsertEnter * silent execute "!echo -en \<esc>[5 q"
 au InsertLeave * silent execute "!echo -en \<esc>[2 q"
+
