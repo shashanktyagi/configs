@@ -43,6 +43,8 @@ let g:airline_theme='jellybeans'
 let g:airline#extensions#tabline#enabled = 1
 
 let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabClosePreviewOnPopupClose = 1
+let g:SuperTabCrMapping = 1
 
 map <C-n> :NERDTreeToggle<CR>
 
