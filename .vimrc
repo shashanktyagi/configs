@@ -14,6 +14,7 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-fugitive'
 Plug 'jiangmiao/auto-pairs'
 Plug 'honza/vim-snippets'
 Plug 'flazz/vim-colorschemes'
@@ -199,6 +200,6 @@ try
 catch
 endtry
 
-au InsertEnter * silent execute "!echo -en \<esc>[5 q"
-au InsertLeave * silent execute "!echo -en \<esc>[2 q"
+"au InsertEnter * silent execute "!echo -en \<esc>[5 q"
+"au InsertLeave * silent execute "!echo -en \<esc>[2 q"
 
