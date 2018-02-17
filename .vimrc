@@ -149,7 +149,7 @@ set smarttab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
-set smartindent
+"set smartindent
 
 set cursorline
 
@@ -200,6 +200,6 @@ try
 catch
 endtry
 
-au InsertEnter * silent execute "!echo -en \<esc>[5 q"
-au InsertLeave * silent execute "!echo -en \<esc>[2 q"
+"au InsertEnter * silent execute "!echo -en \<esc>[5 q"
+"au InsertLeave * silent execute "!echo -en \<esc>[2 q"
 
