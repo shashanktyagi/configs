@@ -14,6 +14,7 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'jiangmiao/auto-pairs'
 Plug 'honza/vim-snippets'
@@ -193,6 +194,7 @@ nnoremap <C-l> <C-w>l
 " indent code
 vnoremap < <gv
 vnoremap > >gv
+nnoremap gp '[v']
 
 
 try
