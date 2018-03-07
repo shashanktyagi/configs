@@ -51,7 +51,7 @@ let g:SuperTabCrMapping = 1
 map <C-n> :NERDTreeToggle<CR>
 
 
-let g:syntastic_python_checkers=['pyflakes']
+let g:syntastic_python_checkers=['flake8']
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
@@ -198,7 +198,7 @@ nnoremap gp '[v']
 
 
 try
-    colorscheme minimalist
+    colorscheme gotham
 catch
 endtry
 
