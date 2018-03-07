@@ -198,7 +198,7 @@ nnoremap gp '[v']
 
 
 try
-    colorscheme minimalist
+    colorscheme gotham
 catch
 endtry
 
