@@ -40,7 +40,7 @@ let g:ctrlp_cmd = 'CtrlP'
 
 let python_highlight_all = 1
 
-let g:airline_theme='jellybeans'
+"let g:airline_theme='jellybeans'
 
 let g:airline#extensions#tabline#enabled = 1
 
@@ -198,10 +198,7 @@ nnoremap gp '[v']
 
 
 try
-    colorscheme gotham
+    colorscheme gotham256
 catch
 endtry
-
-"au InsertEnter * silent execute "!echo -en \<esc>[5 q"
-"au InsertLeave * silent execute "!echo -en \<esc>[2 q"
 
