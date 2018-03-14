@@ -59,6 +59,8 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 
 let g:NERDCompactSexyComs = 1
+let g:NERDSpaceDelims = 1
+let NERDDefaultAlign="left"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -160,6 +162,18 @@ set cursorline
 set cc=80
 
 set noshowmode
+
+set noerrorbells
+
+set novisualbell
+
+set t_vb=
+
+set tm=500
+
+set scrolloff=10
+
+
 "close the current buffer
 map <leader>bd :bd<cr>
 
@@ -180,10 +194,6 @@ map <leader>n :tabprevious<cr>
 map <leader>pp :setlocal paste!<cr>
 nnoremap <leader>w :w<cr>
 
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
 
 nnoremap <silent> <cr> :noh<cr><esc>
 
