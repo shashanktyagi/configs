@@ -35,9 +35,9 @@ call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins settings:
 
-let g:ctrlp_working_path_mode = 0
+let g:ctrlp_working_path_mode = 'c'
 let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_cmd = 'CtrlPMixed'
 
 let python_highlight_all = 1
 
