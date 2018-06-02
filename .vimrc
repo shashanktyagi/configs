@@ -41,7 +41,7 @@ let g:ctrlp_cmd = 'CtrlPMixed'
 
 let python_highlight_all = 1
 
-"let g:airline_theme='jellybeans'
+let g:airline_theme='angr'
 
 let g:airline#extensions#tabline#enabled = 1
 
@@ -206,7 +206,7 @@ nnoremap gp '[v']
 
 
 try
-    colorscheme gotham256
+    colorscheme gotham
 catch
 endtry
 
