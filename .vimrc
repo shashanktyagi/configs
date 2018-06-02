@@ -14,6 +14,7 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
+Plug 'Valloric/YouCompleteMe' " Requires compilation
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
@@ -26,7 +27,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
-Plug 'ervandew/supertab'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'scrooloose/syntastic'
 Plug 'bronson/vim-trailing-whitespace'
@@ -45,12 +45,7 @@ let python_highlight_all = 1
 
 let g:airline#extensions#tabline#enabled = 1
 
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabClosePreviewOnPopupClose = 1
-let g:SuperTabCrMapping = 1
-
 map <C-n> :NERDTreeToggle<CR>
-
 
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_always_populate_loc_list = 1
@@ -214,4 +209,19 @@ try
     colorscheme gotham256
 catch
 endtry
+
+" resize  panes quickly
+nnoremap <silent> <leader>= 10<C-w>+
+nnoremap <silent> <leader>- 10<C-w>-
+
+if has("autocmd")
+  au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
+  au InsertEnter,InsertChange *
+    \ if v:insertmode == 'i' | 
+    \   silent execute '!echo -ne "\e[5 q"' | redraw! |
+    \ elseif v:insertmode == 'r' |
+    \   silent execute '!echo -ne "\e[3 q"' | redraw! |
+    \ endif
+  au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+endif
 
