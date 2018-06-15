@@ -205,23 +205,9 @@ vnoremap > >gv
 nnoremap gp '[v']
 
 
-try
-    colorscheme gotham
-catch
-endtry
+colorscheme gotham256
 
 " resize  panes quickly
 nnoremap <silent> <leader>= 10<C-w>+
 nnoremap <silent> <leader>- 10<C-w>-
-
-if has("autocmd")
-  au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
-  au InsertEnter,InsertChange *
-    \ if v:insertmode == 'i' | 
-    \   silent execute '!echo -ne "\e[5 q"' | redraw! |
-    \ elseif v:insertmode == 'r' |
-    \   silent execute '!echo -ne "\e[3 q"' | redraw! |
-    \ endif
-  au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
-endif
 
