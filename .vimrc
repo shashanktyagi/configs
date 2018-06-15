@@ -30,6 +30,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'scrooloose/syntastic'
 Plug 'bronson/vim-trailing-whitespace'
+Plug 'tomasiser/vim-code-dark'
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -41,7 +42,7 @@ let g:ctrlp_cmd = 'CtrlPMixed'
 
 let python_highlight_all = 1
 
-let g:airline_theme='angr'
+let g:airline_theme='codedark'
 
 let g:airline#extensions#tabline#enabled = 1
 
@@ -205,7 +206,7 @@ vnoremap > >gv
 nnoremap gp '[v']
 
 
-colorscheme gotham256
+colorscheme codedark
 
 " resize  panes quickly
 nnoremap <silent> <leader>= 10<C-w>+

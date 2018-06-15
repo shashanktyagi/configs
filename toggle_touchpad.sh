@@ -1,5 +1,5 @@
 #Source: https://fazlearefin.blogspot.com/2014/08/disable-touchpad-using-keyboard-shortcut.html
-TOUCHPADID=12    # change this id
+TOUCHPADID=13    # change this id
 
 SYNSTATE=$(xinput list-props "$TOUCHPADID" | grep "Device Enabled" | grep -Eo '.$')
 if [ $SYNSTATE = 0 ]; then
