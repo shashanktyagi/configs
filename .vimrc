@@ -14,6 +14,7 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
+Plug 'airblade/vim-gitgutter'
 Plug 'Valloric/YouCompleteMe' " Requires compilation
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-surround'
@@ -53,6 +54,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
+
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_autoclose_preview_window_after_completion = 1
 
 let g:NERDCompactSexyComs = 1
 let g:NERDSpaceDelims = 1
@@ -212,3 +216,4 @@ colorscheme codedark
 nnoremap <silent> <leader>= 10<C-w>+
 nnoremap <silent> <leader>- 10<C-w>-
 
+set mouse=a
