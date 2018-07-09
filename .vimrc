@@ -14,7 +14,6 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
-Plug 'airblade/vim-gitgutter'
 Plug 'Valloric/YouCompleteMe' " Requires compilation
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-surround'
