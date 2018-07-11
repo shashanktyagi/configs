@@ -57,6 +57,8 @@ let g:syntastic_check_on_wq = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 
+nnoremap <leader>gd :YcmCompleter GetDoc<cr>
+
 let g:NERDCompactSexyComs = 1
 let g:NERDSpaceDelims = 1
 let NERDDefaultAlign="left"
