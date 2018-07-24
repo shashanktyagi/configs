@@ -50,18 +50,20 @@ map <C-n> :NERDTreeToggle<CR>
 
 let g:syntastic_python_checkers=['flake8']
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 
-nnoremap <leader>gd :YcmCompleter GetDoc<cr>
+nnoremap <leader>doc :YcmCompleter GetDoc<cr>
 
 let g:NERDCompactSexyComs = 1
 let g:NERDSpaceDelims = 1
 let NERDDefaultAlign="left"
+
+set diffopt+=vertical
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -103,7 +105,7 @@ set autoread
 let mapleader = ","
 let g:mapleader = ","
 
-nnoremap <leader>b oimport ipdb;ipdb.set_trace()<Esc>
+nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
 
 " Marker for change, replace etc.
 set cpoptions+=$
@@ -216,5 +218,3 @@ colorscheme codedark
 " resize  panes quickly
 nnoremap <silent> <leader>= 10<C-w>+
 nnoremap <silent> <leader>- 10<C-w>-
-
-set mouse=a
