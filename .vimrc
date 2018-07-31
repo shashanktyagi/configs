@@ -16,21 +16,18 @@ augroup END " }
 call plug#begin('~/.vim/plugged')
 Plug 'Valloric/YouCompleteMe' " Requires compilation
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'jiangmiao/auto-pairs'
-Plug 'honza/vim-snippets'
-Plug 'flazz/vim-colorschemes'
 Plug 'kien/ctrlp.vim'
 Plug 'hdima/python-syntax'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
-Plug 'jlanzarotta/bufexplorer'
 Plug 'scrooloose/syntastic'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'tomasiser/vim-code-dark'
+
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -57,11 +54,10 @@ let g:syntastic_check_on_wq = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 
-nnoremap <leader>doc :YcmCompleter GetDoc<cr>
-
 let g:NERDCompactSexyComs = 1
 let g:NERDSpaceDelims = 1
 let NERDDefaultAlign="left"
+
 
 set diffopt+=vertical
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -87,6 +83,9 @@ if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
 
+
+colorscheme codedark
+
 syntax on
 
 set encoding=utf8
@@ -105,7 +104,6 @@ set autoread
 let mapleader = ","
 let g:mapleader = ","
 
-nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
 
 " Marker for change, replace etc.
 set cpoptions+=$
@@ -162,7 +160,7 @@ set tabstop=4
 
 set cursorline
 
-set cc=80
+set cc=90
 
 set noshowmode
 
@@ -194,9 +192,12 @@ map <leader>tm :tabmove
 map <leader>m :tabnext<cr>
 map <leader>n :tabprevious<cr>
 
-map <leader>pp :setlocal paste!<cr>
+map <leader>p :setlocal paste!<cr>
 nnoremap <leader>w :w<cr>
 
+nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
+nnoremap <leader>gd :YcmCompleter GetDoc<cr>
+nnoremap <leader>] :YcmCompleter GoTo<cr>
 
 nnoremap <silent> <cr> :noh<cr><esc>
 
@@ -212,8 +213,6 @@ vnoremap < <gv
 vnoremap > >gv
 nnoremap gp '[v']
 
-
-colorscheme codedark
 
 " resize  panes quickly
 nnoremap <silent> <leader>= 10<C-w>+
