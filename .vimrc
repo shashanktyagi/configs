@@ -27,7 +27,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/syntastic'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'tomasiser/vim-code-dark'
-
+Plug 'Vimjas/vim-python-pep8-indent'
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
