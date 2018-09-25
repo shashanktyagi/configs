@@ -15,4 +15,7 @@ sudo rm -rf /usr/local/src/tmux-*
 sudo mv tmux-${VERSION} /usr/local/src
 
 ## Logout and login to the shell again and run.
-## tmux -V
+tmux -V
+
+echo "installing tpm"
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
