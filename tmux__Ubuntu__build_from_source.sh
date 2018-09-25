@@ -1,5 +1,8 @@
 # Steps to build and install tmux from source on Ubuntu.
 # Takes < 25 seconds on EC2 env [even on a low-end config instance].
+
+set -e
+
 VERSION=2.7
 sudo apt-get -y remove tmux
 sudo apt-get -y install wget tar libevent-dev libncurses-dev
