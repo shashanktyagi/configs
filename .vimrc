@@ -39,7 +39,7 @@ let g:ctrlp_cmd = 'CtrlPMixed'
 
 let python_highlight_all = 1
 
-let g:airline_theme='codedark'
+let g:airline_theme='angr'
 
 let g:airline#extensions#tabline#enabled = 1
 
@@ -160,7 +160,7 @@ set tabstop=4
 
 set cursorline
 
-set cc=90
+set cc=80
 
 set noshowmode
 
@@ -198,6 +198,9 @@ nnoremap <leader>w :w<cr>
 nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
 nnoremap <leader>gd :YcmCompleter GetDoc<cr>
 nnoremap <leader>] :YcmCompleter GoTo<cr>
+
+" shortcut to time a line
+nnoremap <leader>tt Oimport time; t1 = time.time()<Esc>joprint('time:{}'.format(time.time() - t1))<Esc>
 
 nnoremap <silent> <cr> :noh<cr><esc>
 

@@ -132,12 +132,12 @@ export PS1="\[\033[36m\]\u@\h\[\033[32m\]:\w\[\033[33m\]\$(parse_git_branch)\[\0
 # setup cuda paths
 export PATH=/usr/local/cuda-9.0/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64:$LD_LIBRARY_PATH
+export NUMBAPRO_NVVM=/usr/local/cuda-9.0/nvvm/lib64/libnvvm.so
+export NUMBAPRO_LIBDEVICE=/usr/local/cuda-9.0/nvvm/libdevice
+export DISPLAY=:0
 
 source /usr/share/autojump/autojump.sh
 
 alias pytorch-tf='source /home/shashank/pytorch-tf/bin/activate'
-
-
-
-
-
+source ~/.engine/autocomplete
+source /opt/ros/kinetic/setup.bash
