@@ -120,24 +120,33 @@ fi
 ### added by shashank
 
 function parse_git_dirty {
-  [[ $(git status --porcelain 2> /dev/null | tail -n1) != "" ]] && echo "*"
+    if [[ $(git status --porcelain 2> /dev/null | tail -n1) != "" ]] && [[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]]; then
+        echo "+*"
+    elif [[ $(git status --porcelain 2> /dev/null | tail -n1) != "" ]]; then
+        echo "+"
+    elif [[ $(git diff --shortstat 2> /dev/null | tail -n1) != "" ]]; then
+        echo "*"
+    fi
 }
 
 function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1]/"
 }
 
-export PS1="\[\033[36m\]\u@\h\[\033[32m\]:\w\[\033[33m\]\$(parse_git_branch)\[\033[31m\]\$(parse_git_dirty)\[\033[33m\]\[\033[00m\] $ "
+export PS1="\[\033[36m\]\u@\h\[\033[32m\]:\w\[\033[33m\]\$(parse_git_branch)\[\033[31m\]\$(parse_git_dirty)\[\033[33m\]\[\033[00m\]$ "
 
-# setup cuda paths
+# setup paths
 export PATH=/usr/local/cuda-9.0/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64:$LD_LIBRARY_PATH
 export NUMBAPRO_NVVM=/usr/local/cuda-9.0/nvvm/lib64/libnvvm.so
 export NUMBAPRO_LIBDEVICE=/usr/local/cuda-9.0/nvvm/libdevice
 export DISPLAY=:0
 
-source /usr/share/autojump/autojump.sh
 
-alias pytorch-tf='source /home/shashank/pytorch-tf/bin/activate'
+# custom aliases
+alias pytorch='source /home/shashank/pytorch-1.0_p36/bin/activate'
+alias pytorch-1.0='source /home/shashank/pytorch-1.0/bin/activate'
+alias ipy="python -c 'import IPython; IPython.terminal.ipapp.launch_new_instance()'"
+
+source /usr/share/autojump/autojump.sh
 source ~/.engine/autocomplete
-source /opt/ros/kinetic/setup.bash

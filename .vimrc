@@ -28,12 +28,13 @@ Plug 'scrooloose/syntastic'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'tomasiser/vim-code-dark'
 Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'fisadev/vim-isort'
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins settings:
 
-let g:ctrlp_working_path_mode = 'c'
+let g:ctrlp_working_path_mode = 'cr'
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
 
@@ -58,11 +59,16 @@ let g:NERDCompactSexyComs = 1
 let g:NERDSpaceDelims = 1
 let NERDDefaultAlign="left"
 
+" Write all buffers before navigating from Vim to tmux pane
+let g:tmux_navigator_save_on_switch = 2
+" Disable tmux navigator when zooming the Vim pane
+let g:tmux_navigator_disable_when_zoomed = 1
 
-set diffopt+=vertical
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set diffopt+=vertical
+
 filetype on
 filetype plugin on
 filetype indent on
@@ -160,7 +166,7 @@ set tabstop=4
 
 set cursorline
 
-set cc=80
+set cc=100
 
 set noshowmode
 
