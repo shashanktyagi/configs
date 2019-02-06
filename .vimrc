@@ -29,6 +29,7 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'tomasiser/vim-code-dark'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'fisadev/vim-isort'
+Plug 'ludovicchabant/vim-gutentags'
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -37,6 +38,9 @@ call plug#end()
 let g:ctrlp_working_path_mode = 'cr'
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_regexp = 1
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
 
 let python_highlight_all = 1
 
@@ -63,6 +67,8 @@ let NERDDefaultAlign="left"
 let g:tmux_navigator_save_on_switch = 2
 " Disable tmux navigator when zooming the Vim pane
 let g:tmux_navigator_disable_when_zoomed = 1
+
+set statusline+=%{gutentags#statusline()}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
@@ -203,10 +209,6 @@ nnoremap <leader>w :w<cr>
 
 nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
 nnoremap <leader>gd :YcmCompleter GetDoc<cr>
-nnoremap <leader>] :YcmCompleter GoTo<cr>
-
-" shortcut to time a line
-nnoremap <leader>tt Oimport time; t1 = time.time()<Esc>joprint('time:{}'.format(time.time() - t1))<Esc>
 
 nnoremap <silent> <cr> :noh<cr><esc>
 
