@@ -133,20 +133,43 @@ function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1]/"
 }
 
+export PROMPT_DIRTRIM=3
 export PS1="\[\033[36m\]\u@\h\[\033[32m\]:\w\[\033[33m\]\$(parse_git_branch)\[\033[31m\]\$(parse_git_dirty)\[\033[33m\]\[\033[00m\]$ "
+export DISPLAY=:0
 
 # setup paths
 export PATH=/usr/local/cuda-9.0/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64:$LD_LIBRARY_PATH
 export NUMBAPRO_NVVM=/usr/local/cuda-9.0/nvvm/lib64/libnvvm.so
 export NUMBAPRO_LIBDEVICE=/usr/local/cuda-9.0/nvvm/libdevice
-export DISPLAY=:0
 
-
-# custom aliases
-alias pytorch='source /home/shashank/pytorch-1.0_p36/bin/activate'
-alias pytorch-1.0='source /home/shashank/pytorch-1.0/bin/activate'
 alias ipy="python -c 'import IPython; IPython.terminal.ipapp.launch_new_instance()'"
+alias work="tmux a -t workspace"
 
 source /usr/share/autojump/autojump.sh
 source ~/.engine/autocomplete
+# added by Anaconda3 2018.12 installer
+# >>> conda init >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$(CONDA_REPORT_ERRORS=false '/home/shashank/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    \eval "$__conda_setup"
+else
+    if [ -f "/home/shashank/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/shashank/anaconda3/etc/profile.d/conda.sh"
+        CONDA_CHANGEPS1=false conda activate base
+    else
+        \export PATH="/home/shashank/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+alias cvml="conda activate conda_cvml"
+# <<< conda init <<<
+ssh() {
+    if [[ -n "$TMUX" ]]; then
+        printf '\033]2;%s\033\\' "title"
+        command ssh "$@"
+    else
+        command ssh "$@"
+    fi
+}

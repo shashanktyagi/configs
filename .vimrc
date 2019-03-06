@@ -117,6 +117,14 @@ set history=500
 
 " Set to auto read when a file is changed from the outside
 set autoread
+" Triger `autoread` when files changes on disk
+" https://unix.stackexchange.com/questions/149209/refresh-changed-content-of-file-opened-in-vim/383044#383044
+" https://vi.stackexchange.com/questions/13692/prevent-focusgained-autocmd-running-in-command-line-editing-mode
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+" Notification after file change
+" https://vi.stackexchange.com/questions/13091/autocmd-event-for-autoread
+autocmd FileChangedShellPost *
+  \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -222,10 +230,6 @@ nnoremap <silent> <cr> :noh<cr><esc>
 nnoremap <C-e> <C-e><C-e>
 nnoremap <C-y> <C-y><C-y>
 
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
 " indent code
 vnoremap < <gv
 vnoremap > >gv
