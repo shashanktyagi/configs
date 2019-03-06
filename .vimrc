@@ -26,10 +26,12 @@ Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/syntastic'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'tomasiser/vim-code-dark'
+Plug 'morhetz/gruvbox'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'fisadev/vim-isort'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'"
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -44,7 +46,10 @@ let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
 
 let python_highlight_all = 1
 
-let g:airline_theme='angr'
+let g:airline_theme='gruvbox'
+set background=dark
+colorscheme gruvbox
+let g:gruvbox_contrast_dark='hard'
 
 let g:airline#extensions#tabline#enabled = 1
 
@@ -58,6 +63,11 @@ let g:syntastic_check_on_wq = 1
 
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_global_ycm_extra_conf = "~/.vim/plugged/YouCompleteMe/.ycm_extra_conf.py"
+
+let g:UltiSnipsExpandTrigger = "<C-j>"
+let g:UltiSnipsJumpForwardTrigger = "<C-j>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
 
 let g:NERDCompactSexyComs = 1
 let g:NERDSpaceDelims = 1
@@ -94,9 +104,6 @@ set laststatus=2
 if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
-
-
-colorscheme codedark
 
 syntax on
 
