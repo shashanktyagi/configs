@@ -24,6 +24,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
+Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/syntastic'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'morhetz/gruvbox'
@@ -79,7 +80,7 @@ let g:syntastic_check_on_wq = 1
 
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_global_ycm_extra_conf = "~/.vim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py"
+let g:ycm_global_ycm_extra_conf = "~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
 
 let g:UltiSnipsExpandTrigger = "<C-j>"
 let g:UltiSnipsJumpForwardTrigger = "<C-j>"
@@ -240,6 +241,7 @@ nnoremap <leader>w :w<cr>
 
 nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
 nnoremap <leader>gd :YcmCompleter GetDoc<cr>
+nnoremap <leader>] :YcmCompleter GoTo<cr>
 
 nnoremap <silent> <cr> :noh<cr><esc>
 

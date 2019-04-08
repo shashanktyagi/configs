@@ -163,13 +163,5 @@ else
     fi
 fi
 unset __conda_setup
-alias cvml="conda activate conda_cvml"
+alias cvml="conda activate cvml"
 # <<< conda init <<<
-ssh() {
-    if [[ -n "$TMUX" ]]; then
-        printf '\033]2;%s\033\\' "title"
-        command ssh "$@"
-    else
-        command ssh "$@"
-    fi
-}
