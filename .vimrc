@@ -27,7 +27,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'scrooloose/syntastic'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'morhetz/gruvbox'
+Plug 'mhartington/oceanic-next'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'fisadev/vim-isort'
 Plug 'ludovicchabant/vim-gutentags'
@@ -40,16 +40,16 @@ call plug#end()
 
 let g:ctrlp_working_path_mode = 'cr'
 let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_regexp = 1
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
 
 let python_highlight_all = 1
 
-let g:airline_theme='gruvbox'
+let g:airline_theme='oceanicnext'
 set background=dark
-colorscheme gruvbox
+colorscheme OceanicNext
 let g:gruvbox_contrast_dark='hard'
 
 " air-line
