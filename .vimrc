@@ -14,8 +14,10 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
+Plug 'kien/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
@@ -23,8 +25,6 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'mhartington/oceanic-next'
-Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jiangmiao/auto-pairs'
 " All of your Plugins must be added before the following line
 call plug#end()
@@ -82,13 +82,6 @@ let g:airline_symbols.linenr = ''
 let g:airline#extensions#tabline#enabled = 1
 
 map <C-n> :NERDTreeToggle<CR>
-
-let g:syntastic_python_checkers=['flake8']
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 1
-
 let g:NERDCompactSexyComs = 1
 let g:NERDSpaceDelims = 1
 let NERDDefaultAlign="left"
@@ -98,6 +91,7 @@ let g:tmux_navigator_save_on_switch = 2
 " Disable tmux navigator when zooming the Vim pane
 let g:tmux_navigator_disable_when_zoomed = 1
 
+set statusline^=%{coc#status()}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
