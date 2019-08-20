@@ -14,36 +14,47 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
-Plug 'Valloric/YouCompleteMe' " Requires compilation
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
-Plug 'jiangmiao/auto-pairs'
-Plug 'kien/ctrlp.vim'
-Plug 'hdima/python-syntax'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'xuyuanp/nerdtree-git-plugin'
-Plug 'scrooloose/syntastic'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'mhartington/oceanic-next'
 Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'fisadev/vim-isort'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'"
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'jiangmiao/auto-pairs'
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 " Plugins settings:
 
-let g:ctrlp_working_path_mode = 'cr'
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_regexp = 1
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
+" coc.nvim
+" use <tab> for trigger completion and navigate to next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+"Close preview window when completion is done.
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+nmap <silent> <leader>gd <Plug>(coc-definition)
+nmap <silent> <leader>gr <Plug>(coc-references)
+nmap <silent> <leader>gj <Plug>(coc-implementation)
+
+" coc.nvim color changes
+hi! link CocErrorSign WarningMsg
+hi! link CocWarningSign Number
+hi! link CocInfoSign Type
+
 
 let python_highlight_all = 1
 
@@ -78,14 +89,6 @@ let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 
-let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_global_ycm_extra_conf = "~/.vim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
-
-let g:UltiSnipsExpandTrigger = "<C-j>"
-let g:UltiSnipsJumpForwardTrigger = "<C-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<C-k>"
-
 let g:NERDCompactSexyComs = 1
 let g:NERDSpaceDelims = 1
 let NERDDefaultAlign="left"
@@ -94,8 +97,6 @@ let NERDDefaultAlign="left"
 let g:tmux_navigator_save_on_switch = 2
 " Disable tmux navigator when zooming the Vim pane
 let g:tmux_navigator_disable_when_zoomed = 1
-
-set statusline+=%{gutentags#statusline()}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
@@ -240,8 +241,6 @@ map <leader>p :setlocal paste!<cr>
 nnoremap <leader>w :w<cr>
 
 nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
-nnoremap <leader>gd :YcmCompleter GetDoc<cr>
-nnoremap <leader>] :YcmCompleter GoTo<cr>
 
 nnoremap <silent> <cr> :noh<cr><esc>
 
@@ -257,3 +256,6 @@ nnoremap gp '[v']
 " resize  panes quickly
 nnoremap <silent> <leader>= 10<C-w>+
 nnoremap <silent> <leader>- 10<C-w>-
+
+" Allows you to save files you opened without write permissions via sudo
+cmap w!! w !sudo tee %
