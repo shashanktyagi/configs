@@ -17,7 +17,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
-Plug 'kien/ctrlp.vim'
+Plug 'tpope/vim-unimpaired'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
@@ -26,11 +26,26 @@ Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'mhartington/oceanic-next'
 Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+let mapleader = ","
+let g:mapleader = ","
+
 " Plugins settings:
+
+" fzf
+nnoremap <silent> <C-p> :Files<cr>
+let g:fzf_commits_log_options = '--graph --color=always
+  \ --format="%C(yellow)%h%C(red)%d%C(reset)
+  \ - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)"'
+nnoremap <silent> <leader>c :Commits<cr>
+nnoremap <silent> <leader>bc :BCommits<cr>
+nnoremap <silent> <leader>ag :Ag<cr>
+nnoremap <silent> <leader>ag! :Ag!<cr>
 
 " coc.nvim
 " use <tab> for trigger completion and navigate to next complete item
@@ -138,12 +153,6 @@ autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checkti
 autocmd FileChangedShellPost *
   \ echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
-" With a map leader it's possible to do extra key combinations
-" like <leader>w saves the current file
-let mapleader = ","
-let g:mapleader = ","
-
-
 " Marker for change, replace etc.
 set cpoptions+=$
 syntax on
@@ -217,19 +226,8 @@ set scrolloff=10
 "close the current buffer
 map <leader>bd :bd<cr>
 
-" Close all the buffers
-map <leader>ba :bufdo bd<cr>
-
 map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
-
-" Useful mappings for managing tabs
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove
-map <leader>m :tabnext<cr>
-map <leader>n :tabprevious<cr>
 
 map <leader>p :setlocal paste!<cr>
 nnoremap <leader>w :w<cr>
