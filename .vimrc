@@ -39,13 +39,15 @@ let g:mapleader = ","
 
 " fzf
 nnoremap <silent> <C-p> :Files<cr>
-let g:fzf_commits_log_options = '--graph --color=always
-  \ --format="%C(yellow)%h%C(red)%d%C(reset)
-  \ - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)"'
+nnoremap <silent> <leader>ls :Files <C-r>=expand("%:h")<CR>/<CR>
 nnoremap <silent> <leader>c :Commits<cr>
 nnoremap <silent> <leader>bc :BCommits<cr>
 nnoremap <silent> <leader>ag :Ag<cr>
 nnoremap <silent> <leader>ag! :Ag!<cr>
+
+let g:fzf_commits_log_options = '--graph --color=always
+  \ --format="%C(yellow)%h%C(red)%d%C(reset)
+  \ - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)"'
 
 " coc.nvim
 " use <tab> for trigger completion and navigate to next complete item
