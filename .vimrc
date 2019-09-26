@@ -40,8 +40,9 @@ let g:mapleader = ","
 " fzf
 nnoremap <silent> <C-p> :Files<cr>
 nnoremap <silent> <leader>ls :Files <C-r>=expand("%:h")<CR>/<CR>
-nnoremap <silent> <leader>c :Commits<cr>
-nnoremap <silent> <leader>bc :BCommits<cr>
+nnoremap <silent> <leader>gs :GFiles?<cr>
+nnoremap <silent> <leader>gl :Commits<cr>
+nnoremap <silent> <leader>gf :BCommits<cr>
 nnoremap <silent> <leader>ag :Ag<cr>
 nnoremap <silent> <leader>ag! :Ag!<cr>
 
@@ -63,9 +64,9 @@ inoremap <silent><expr> <TAB>
 
 "Close preview window when completion is done.
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-nmap <silent> <leader>gd <Plug>(coc-definition)
-nmap <silent> <leader>gr <Plug>(coc-references)
-nmap <silent> <leader>gj <Plug>(coc-implementation)
+nmap <silent> <leader>jd <Plug>(coc-definition)
+nmap <silent> <leader>jr <Plug>(coc-references)
+nmap <silent> <leader>ji <Plug>(coc-implementation)
 
 " coc.nvim color changes
 hi! link CocErrorSign WarningMsg
