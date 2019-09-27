@@ -14,6 +14,8 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
+" Plug 'owickstrom/vim-colors-paramount'
+Plug 'levelone/tequila-sunrise.vim' 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
@@ -24,10 +26,10 @@ Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'mhartington/oceanic-next'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'Yggdroot/indentLine'
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -76,10 +78,9 @@ hi! link CocInfoSign Type
 
 let python_highlight_all = 1
 
-let g:airline_theme='oceanicnext'
+let g:airline_theme='jellybeans'
 set background=dark
-colorscheme OceanicNext
-let g:gruvbox_contrast_dark='hard'
+colorscheme tequila-sunrise
 
 " air-line
 let g:airline_powerline_fonts = 1
@@ -207,7 +208,6 @@ set smarttab
 " 1 tab == 4 spaces
 set shiftwidth=4
 set tabstop=4
-"set smartindent
 
 set cursorline
 
@@ -254,3 +254,8 @@ nnoremap <silent> <leader>- 10<C-w>-
 
 " Allows you to save files you opened without write permissions via sudo
 cmap w!! w !sudo tee %
+
+" open file with cursor at previous location
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+endif
