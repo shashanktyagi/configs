@@ -14,7 +14,6 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
-" Plug 'owickstrom/vim-colors-paramount'
 Plug 'levelone/tequila-sunrise.vim' 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'christoomey/vim-tmux-navigator'
@@ -109,6 +108,10 @@ let g:tmux_navigator_save_on_switch = 2
 let g:tmux_navigator_disable_when_zoomed = 1
 
 set statusline^=%{coc#status()}
+
+let g:indentLine_enabled = 1
+autocmd Filetype json let g:indentLine_enabled = 0
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
