@@ -45,11 +45,26 @@ nnoremap <silent> <leader>gs :GFiles?<cr>
 nnoremap <silent> <leader>gl :Commits<cr>
 nnoremap <silent> <leader>gf :BCommits<cr>
 nnoremap <silent> <leader>ag :Ag<cr>
-nnoremap <silent> <leader>ag! :Ag!<cr>
+vnoremap <silent> <leader>ag :call SearchVisualSelectionWithAg()<CR>
+function! SearchVisualSelectionWithAg() range
+   let old_reg = getreg('"')
+   let old_regtype = getregtype('"')
+   let old_clipboard = &clipboard
+   set clipboard&
+   normal! ""gvy
+   let selection = getreg('"')
+   call setreg('"', old_reg, old_regtype)
+   let &clipboard = old_clipboard
+   execute 'Ag' selection
+endfunction
+
 
 let g:fzf_commits_log_options = '--graph --color=always
   \ --format="%C(yellow)%h%C(red)%d%C(reset)
   \ - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)"'
+
+" fugitive
+nnoremap <silent> <leader>gd :Gvdiff<cr>
 
 " coc.nvim
 " use <tab> for trigger completion and navigate to next complete item
