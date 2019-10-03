@@ -28,11 +28,15 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'Yggdroot/indentLine'
+Plug 'fisadev/vim-isort'
+Plug 'Vimjas/vim-python-pep8-indent'
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+filetype on
+filetype plugin on
+filetype indent on
 let mapleader = ","
 let g:mapleader = ","
 
@@ -124,17 +128,11 @@ let g:tmux_navigator_disable_when_zoomed = 1
 
 set statusline^=%{coc#status()}
 
-let g:indentLine_enabled = 1
-autocmd Filetype json let g:indentLine_enabled = 0
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set diffopt+=vertical
 
-filetype on
-filetype plugin on
-filetype indent on
 set nocompatible
 
 " solve delays in O
