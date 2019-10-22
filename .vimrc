@@ -43,9 +43,12 @@ let g:mapleader = ","
 " Plugins settings:
 
 " fzf
-nnoremap <silent> <C-p> :Files<cr>
+" fzf file fuzzy search that respects .gitignore
+" " If in git directory, show only files that are committed, staged, or unstaged else use regular :Files
+nnoremap <expr> <C-p> (len(system('git rev-parse')) ? ':Files' : ':GFiles --exclude-standard --others --cached')."\<cr>"
+nnoremap <silent> <leader>m :History<cr>
 nnoremap <silent> <leader>ls :Files <C-r>=expand("%:h")<CR>/<CR>
-nnoremap <silent> <leader>gs :GFiles?<cr>
+nnoremap <silent> <leader>gs :Gstatus<cr>
 nnoremap <silent> <leader>gl :Commits<cr>
 nnoremap <silent> <leader>gf :BCommits<cr>
 nnoremap <silent> <leader>ag :Ag<cr>
@@ -84,9 +87,25 @@ inoremap <silent><expr> <TAB>
 
 "Close preview window when completion is done.
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-nmap <silent> <leader>jd <Plug>(coc-definition)
-nmap <silent> <leader>jr <Plug>(coc-references)
-nmap <silent> <leader>ji <Plug>(coc-implementation)
+
+nnoremap <silent> [c <Plug>(coc-diagnostic-prev)
+nnoremap <silent> ]c <Plug>(coc-diagnostic-next)
+
+nnoremap <silent> <leader>jd <Plug>(coc-definition)
+nnoremap <silent> <leader>jr <Plug>(coc-references)
+nnoremap <silent> <leader>ji <Plug>(coc-implementation)
+nnoremap <silent> <leader>jt <Plug>(coc-type-definition)
+
+" Use <leader>doc to show documentation in preview window
+nnoremap <silent> <leader>doc :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
 " coc.nvim color changes
 hi! link CocErrorSign WarningMsg
@@ -261,10 +280,9 @@ vnoremap < <gv
 vnoremap > >gv
 nnoremap gp '[v']
 
-
-" resize  panes quickly
-nnoremap <silent> <leader>= 10<C-w>+
-nnoremap <silent> <leader>- 10<C-w>-
+" zoom vim pane
+noremap <leader>z <c-w>_ \| <c-w>\|
+noremap <leader>= <c-w>=
 
 " Allows you to save files you opened without write permissions via sudo
 cmap w!! w !sudo tee %
@@ -273,3 +291,6 @@ cmap w!! w !sudo tee %
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
+
+" Automatically save the session in current directory when leaving Vim
+autocmd! VimLeave * mksession! ./Session.vim
