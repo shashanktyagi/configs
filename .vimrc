@@ -96,8 +96,7 @@ nnoremap <silent> <leader>jr <Plug>(coc-references)
 nnoremap <silent> <leader>ji <Plug>(coc-implementation)
 nnoremap <silent> <leader>jt <Plug>(coc-type-definition)
 
-" Use <leader>doc to show documentation in preview window
-nnoremap <silent> <leader>doc :call <SID>show_documentation()<CR>
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -106,6 +105,10 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+nmap <leader>rn <Plug>(coc-rename)
 
 " coc.nvim color changes
 hi! link CocErrorSign WarningMsg
