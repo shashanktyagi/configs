@@ -49,6 +49,7 @@ nnoremap <expr> <C-p> (len(system('git rev-parse')) ? ':Files' : ':GFiles --excl
 nnoremap <silent> <leader>m :History<cr>
 nnoremap <silent> <leader>ls :Files <C-r>=expand("%:h")<CR>/<CR>
 nnoremap <silent> <leader>gs :Gstatus<cr>
+nnoremap <silent> <leader>gv :Gvdiff<cr>
 nnoremap <silent> <leader>gl :Commits<cr>
 nnoremap <silent> <leader>gf :BCommits<cr>
 nnoremap <silent> <leader>ag :Ag<cr>
@@ -70,8 +71,6 @@ let g:fzf_commits_log_options = '--graph --color=always
   \ --format="%C(yellow)%h%C(red)%d%C(reset)
   \ - %C(bold green)(%ar)%C(reset) %s %C(blue)<%an>%C(reset)"'
 
-" fugitive
-nnoremap <silent> <leader>gd :Gvdiff<cr>
 
 " coc.nvim
 " use <tab> for trigger completion and navigate to next complete item
@@ -91,10 +90,10 @@ autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 nnoremap <silent> [c <Plug>(coc-diagnostic-prev)
 nnoremap <silent> ]c <Plug>(coc-diagnostic-next)
 
-nnoremap <silent> <leader>jd <Plug>(coc-definition)
-nnoremap <silent> <leader>jr <Plug>(coc-references)
-nnoremap <silent> <leader>ji <Plug>(coc-implementation)
-nnoremap <silent> <leader>jt <Plug>(coc-type-definition)
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gr <Plug>(coc-references)
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -108,7 +107,7 @@ endfunction
 
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
-nmap <leader>rn <Plug>(coc-rename)
+nnoremap <leader>rn <Plug>(coc-rename)
 
 " coc.nvim color changes
 hi! link CocErrorSign WarningMsg
