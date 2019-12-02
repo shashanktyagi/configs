@@ -25,7 +25,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'fisadev/vim-isort'
@@ -74,6 +73,13 @@ let g:fzf_commits_log_options = '--graph --color=always
 
 " coc.nvim
 " use <tab> for trigger completion and navigate to next complete item
+
+let g:coc_global_extensions = [
+    \ 'coc-python',
+    \ 'coc-json',
+    \ 'coc-pairs',
+    \ ]
+
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
@@ -87,13 +93,13 @@ inoremap <silent><expr> <TAB>
 "Close preview window when completion is done.
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
-nnoremap <silent> [c <Plug>(coc-diagnostic-prev)
-nnoremap <silent> ]c <Plug>(coc-diagnostic-next)
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
-nnoremap <silent> gd <Plug>(coc-definition)
-nnoremap <silent> gy <Plug>(coc-type-definition)
-nnoremap <silent> gi <Plug>(coc-implementation)
-nnoremap <silent> gr <Plug>(coc-references)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
