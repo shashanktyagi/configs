@@ -300,6 +300,3 @@ cmap w!! w !sudo tee %
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
-
-" Automatically save the session in current directory when leaving Vim
-autocmd! VimLeave * mksession! ./Session.vim
