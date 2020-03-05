@@ -79,6 +79,7 @@ let g:coc_global_extensions = [
     \ 'coc-python',
     \ 'coc-json',
     \ 'coc-pairs',
+    \ 'coc-clangd',
     \ ]
 
 function! s:check_back_space() abort
@@ -148,6 +149,9 @@ map <C-n> :NERDTreeToggle<CR>
 let g:NERDCompactSexyComs = 1
 let g:NERDSpaceDelims = 1
 let NERDDefaultAlign="left"
+let g:NERDCustomDelimiters = {
+  \ 'c': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
+  \ }
 
 " Write all buffers before navigating from Vim to tmux pane
 let g:tmux_navigator_save_on_switch = 2
@@ -253,7 +257,7 @@ set tabstop=4
 
 set cursorline
 
-set cc=100
+set cc=80
 
 set noshowmode
 
@@ -278,6 +282,8 @@ map <leader>p :setlocal paste!<cr>
 nnoremap <leader>w :w<cr>
 
 nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
+
+nnoremap <leader>s *``
 
 nnoremap <silent> <cr> :noh<cr><esc>
 
