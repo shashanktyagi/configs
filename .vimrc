@@ -14,12 +14,13 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
-Plug 'levelone/tequila-sunrise.vim' 
+Plug 'morhetz/gruvbox'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
@@ -29,6 +30,9 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'fisadev/vim-isort'
+Plug 'tpope/vim-obsession'
+Plug 'dhruvasagar/vim-prosession'
+Plug 'jiangmiao/auto-pairs'
 Plug 'Vimjas/vim-python-pep8-indent'
 " All of your Plugins must be added before the following line
 call plug#end()
@@ -37,8 +41,7 @@ call plug#end()
 filetype on
 filetype plugin on
 filetype indent on
-let mapleader = ","
-let g:mapleader = ","
+let mapleader = " "
 
 " Plugins settings:
 
@@ -46,7 +49,7 @@ let g:mapleader = ","
 " fzf file fuzzy search that respects .gitignore
 " " If in git directory, show only files that are committed, staged, or unstaged else use regular :Files
 nnoremap <expr> <C-p> (len(system('git rev-parse')) ? ':Files' : ':GFiles --exclude-standard --others --cached')."\<cr>"
-nnoremap <silent> <leader>m :History<cr>
+nnoremap <silent> <leader>m :Buffers<cr>
 nnoremap <silent> <leader>ls :Files <C-r>=expand("%:h")<CR>/<CR>
 nnoremap <silent> <leader>gs :Gstatus<cr>
 nnoremap <silent> <leader>gv :Gvdiff<cr>
@@ -125,9 +128,9 @@ hi! link CocInfoSign Type
 
 let python_highlight_all = 1
 
-let g:airline_theme='jellybeans'
+let g:airline_theme='gruvbox'
 set background=dark
-colorscheme tequila-sunrise
+colorscheme gruvbox
 
 " air-line
 let g:airline_powerline_fonts = 1
@@ -251,9 +254,11 @@ set expandtab
 " Be smart when using tabs ;)
 set smarttab
 
-" 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
+if has("autocmd")
+    " 1 tab == 4 spaces
+    au FileType python setlocal shiftwidth=4 tabstop=4
+    au FileType c setlocal shiftwidth=2 tabstop=2 cindent
+endif
 
 set cursorline
 
@@ -297,7 +302,8 @@ nnoremap gp '[v']
 
 " zoom vim pane
 noremap <leader>z <c-w>_ \| <c-w>\|
-noremap <leader>= <c-w>=
+noremap <leader>zz <c-w>=
+noremap <leader>d <c-w>q
 
 " Allows you to save files you opened without write permissions via sudo
 cmap w!! w !sudo tee %
