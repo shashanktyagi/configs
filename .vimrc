@@ -24,7 +24,6 @@ Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/nerdcommenter'
 Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -34,6 +33,7 @@ Plug 'tpope/vim-obsession'
 Plug 'dhruvasagar/vim-prosession'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'tomtom/tcomment_vim'
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -57,6 +57,9 @@ nnoremap <silent> <leader>gl :Commits<cr>
 nnoremap <silent> <leader>gf :BCommits<cr>
 nnoremap <silent> <leader>ag :Ag<cr>
 vnoremap <silent> <leader>ag :call SearchVisualSelectionWithAg()<CR>
+nnoremap <silent> <leader>bs :Lines<cr>
+nnoremap <silent> <leader>bl :BLines<cr>
+
 function! SearchVisualSelectionWithAg() range
    let old_reg = getreg('"')
    let old_regtype = getregtype('"')
@@ -67,6 +70,21 @@ function! SearchVisualSelectionWithAg() range
    call setreg('"', old_reg, old_regtype)
    let &clipboard = old_clipboard
    execute 'Ag' selection
+endfunction
+
+function! s:line_handler(l)
+  let keys = split(a:l, ':\t')
+  exec 'buf' keys[0]
+  exec keys[1]
+  normal! ^zz
+endfunction
+
+function! s:buffer_lines()
+  let res = []
+  for b in filter(range(1, bufnr('$')), 'buflisted(v:val)')
+    call extend(res, map(getbufline(b,0,"$"), 'b . ":\t" . (v:key + 1) . ":\t" . v:val '))
+  endfor
+  return res
 endfunction
 
 
@@ -81,7 +99,6 @@ let g:fzf_commits_log_options = '--graph --color=always
 let g:coc_global_extensions = [
     \ 'coc-python',
     \ 'coc-json',
-    \ 'coc-pairs',
     \ 'coc-clangd',
     \ ]
 
@@ -105,6 +122,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gx :CocCommand clangd.switchSourceHeader<cr>
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -149,12 +167,6 @@ let g:airline_symbols.linenr = ''
 let g:airline#extensions#tabline#enabled = 1
 
 map <C-n> :NERDTreeToggle<CR>
-let g:NERDCompactSexyComs = 1
-let g:NERDSpaceDelims = 1
-let NERDDefaultAlign="left"
-let g:NERDCustomDelimiters = {
-  \ 'c': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' },
-  \ }
 
 " Write all buffers before navigating from Vim to tmux pane
 let g:tmux_navigator_save_on_switch = 2
@@ -258,6 +270,8 @@ if has("autocmd")
     " 1 tab == 4 spaces
     au FileType python setlocal shiftwidth=4 tabstop=4
     au FileType c setlocal shiftwidth=2 tabstop=2 cindent
+    au FileType cpp setlocal shiftwidth=2 tabstop=2 cindent
+    au FileType sh setlocal shiftwidth=4 tabstop=4
 endif
 
 set cursorline
@@ -279,16 +293,15 @@ set scrolloff=10
 
 "close the current buffer
 map <leader>bd :bd<cr>
-
 map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
-
 map <leader>p :setlocal paste!<cr>
 nnoremap <leader>w :w<cr>
-
 nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
-
 nnoremap <leader>s *``
+nnoremap <leader>t :terminal<cr>
+
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 nnoremap <silent> <cr> :noh<cr><esc>
 
