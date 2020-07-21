@@ -34,6 +34,7 @@ Plug 'dhruvasagar/vim-prosession'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'tomtom/tcomment_vim'
+Plug 'b4winckler/vim-objc'
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -100,6 +101,8 @@ let g:coc_global_extensions = [
     \ 'coc-python',
     \ 'coc-json',
     \ 'coc-clangd',
+    \ 'coc-cmake',
+    \ 'coc-go'
     \ ]
 
 function! s:check_back_space() abort
@@ -178,7 +181,10 @@ set statusline^=%{coc#status()}
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set diffopt+=vertical
+if &diff
+    set diffopt-=internal
+    set diffopt+=vertical
+endif
 
 set nocompatible
 
@@ -266,12 +272,19 @@ set expandtab
 " Be smart when using tabs ;)
 set smarttab
 
+set autoindent
+set shiftwidth=4
+set tabstop=4
+
 if has("autocmd")
     " 1 tab == 4 spaces
     au FileType python setlocal shiftwidth=4 tabstop=4
+    au FileType go setlocal shiftwidth=4 tabstop=4
     au FileType c setlocal shiftwidth=2 tabstop=2 cindent
     au FileType cpp setlocal shiftwidth=2 tabstop=2 cindent
+    au FileType objcpp setlocal shiftwidth=2 tabstop=2 cindent
     au FileType sh setlocal shiftwidth=4 tabstop=4
+    au BufNewFile,BufRead *.metal set syntax=cpp
 endif
 
 set cursorline
@@ -312,6 +325,8 @@ nnoremap <C-y> <C-y><C-y>
 vnoremap < <gv
 vnoremap > >gv
 nnoremap gp '[v']
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
 " zoom vim pane
 noremap <leader>z <c-w>_ \| <c-w>\|
