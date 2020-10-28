@@ -35,6 +35,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'tomtom/tcomment_vim'
 Plug 'b4winckler/vim-objc'
+Plug 'junegunn/vim-easy-align'
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -53,13 +54,15 @@ nnoremap <expr> <C-p> (len(system('git rev-parse')) ? ':Files' : ':GFiles --excl
 nnoremap <silent> <leader>m :Buffers<cr>
 nnoremap <silent> <leader>ls :Files <C-r>=expand("%:h")<CR>/<CR>
 nnoremap <silent> <leader>gs :Gstatus<cr>
-nnoremap <silent> <leader>gv :Gvdiff<cr>
+nnoremap <silent> <leader>gv :Gvdiffsplit!<cr>
 nnoremap <silent> <leader>gl :Commits<cr>
 nnoremap <silent> <leader>gf :BCommits<cr>
 nnoremap <silent> <leader>ag :Ag<cr>
 vnoremap <silent> <leader>ag :call SearchVisualSelectionWithAg()<CR>
 nnoremap <silent> <leader>bs :Lines<cr>
 nnoremap <silent> <leader>bl :BLines<cr>
+nnoremap gdh :diffget //2<CR>
+nnoremap gdl :diffget //3<CR>
 
 function! SearchVisualSelectionWithAg() range
    let old_reg = getreg('"')
@@ -177,6 +180,17 @@ let g:tmux_navigator_save_on_switch = 2
 let g:tmux_navigator_disable_when_zoomed = 1
 
 set statusline^=%{coc#status()}
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+let g:easy_align_delimiters = {
+  \ '\': {
+  \     'pattern': '\\$',
+  \ },
+  \ }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
@@ -281,8 +295,10 @@ if has("autocmd")
     au FileType python setlocal shiftwidth=4 tabstop=4
     au FileType go setlocal shiftwidth=4 tabstop=4
     au FileType c setlocal shiftwidth=2 tabstop=2 cindent
+    au FileType cuda setlocal shiftwidth=2 tabstop=2 cindent
     au FileType cpp setlocal shiftwidth=2 tabstop=2 cindent
     au FileType objcpp setlocal shiftwidth=2 tabstop=2 cindent
+    au FileType cmake setlocal shiftwidth=2 tabstop=2 cindent
     au FileType sh setlocal shiftwidth=4 tabstop=4
     au BufNewFile,BufRead *.metal set syntax=cpp
 endif
