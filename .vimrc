@@ -14,7 +14,9 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
-Plug 'morhetz/gruvbox'
+Plug 'jacoborus/tender.vim'
+Plug 'NLKNguyen/c-syntax.vim'
+Plug 'vim-python/python-syntax'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
@@ -36,6 +38,8 @@ Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'tomtom/tcomment_vim'
 Plug 'b4winckler/vim-objc'
 Plug 'junegunn/vim-easy-align'
+Plug 'antoinemadec/FixCursorHold.nvim'
+
 " All of your Plugins must be added before the following line
 call plug#end()
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -60,7 +64,7 @@ nnoremap <silent> <leader>gf :BCommits<cr>
 nnoremap <silent> <leader>ag :Ag<cr>
 vnoremap <silent> <leader>ag :call SearchVisualSelectionWithAg()<CR>
 nnoremap <silent> <leader>bs :Lines<cr>
-nnoremap <silent> <leader>bl :BLines<cr>
+nnoremap <silent> <leader>/ :BLines<cr>
 nnoremap gdh :diffget //2<CR>
 nnoremap gdl :diffget //3<CR>
 
@@ -101,7 +105,7 @@ let g:fzf_commits_log_options = '--graph --color=always
 " use <tab> for trigger completion and navigate to next complete item
 
 let g:coc_global_extensions = [
-    \ 'coc-python',
+    \ 'coc-pyright',
     \ 'coc-json',
     \ 'coc-clangd',
     \ 'coc-cmake',
@@ -142,6 +146,9 @@ endfunction
 
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
+" in millisecond, used for both CursorHold and CursorHoldI,
+" use updatetime instead if not defined
+let g:cursorhold_updatetime = 100
 nnoremap <leader>rn <Plug>(coc-rename)
 
 " coc.nvim color changes
@@ -152,9 +159,9 @@ hi! link CocInfoSign Type
 
 let python_highlight_all = 1
 
-let g:airline_theme='gruvbox'
 set background=dark
-colorscheme gruvbox
+let g:airline_theme='tender'
+colorscheme tender
 
 " air-line
 let g:airline_powerline_fonts = 1
@@ -349,10 +356,34 @@ noremap <leader>z <c-w>_ \| <c-w>\|
 noremap <leader>zz <c-w>=
 noremap <leader>d <c-w>q
 
+function! s:SortTimeStamps(lhs, rhs)
+  return a:lhs[1] > a:rhs[1] ?  1
+     \ : a:lhs[1] < a:rhs[1] ? -1
+     \ :                        0
+endfunction
+
 " Allows you to save files you opened without write permissions via sudo
 cmap w!! w !sudo tee %
+
+if !exists("*DeleteHiddenBuffers") " Clear all hidden buffers when running
+	function DeleteHiddenBuffers() " Vim with the 'hidden' option
+		let tpbl=[]
+		call map(range(1, tabpagenr('$')), 'extend(tpbl, tabpagebuflist(v:val))')
+		for buf in filter(range(1, bufnr('$')), 'bufexists(v:val) && index(tpbl, v:val)==-1')
+			silent execute 'bwipeout' buf
+		endfor
+	endfunction
+endif
+command! DeleteHiddenBuffers call DeleteHiddenBuffers()
 
 " open file with cursor at previous location
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 endif
+
+if has('nvim-0.4.3') || has('patch-8.2.0750')
+    nnoremap <nowait><expr> <down> coc#float#has_scroll() ?  coc#float#scroll(1) : "\<down>"
+    nnoremap <nowait><expr> <up> coc#float#has_scroll() ? coc#float#scroll(0) : "\<up>"
+    inoremap <nowait><expr> <down> coc#float#has_scroll() ?  "\<c-r>=coc#float#scroll(1)\<cr>" : "\<down>"
+    inoremap <nowait><expr> <up> coc#float#has_scroll() ?  "\<c-r>=coc#float#scroll(0)\<cr>" : "\<up>"
+        endif
