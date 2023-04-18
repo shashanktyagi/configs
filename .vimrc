@@ -14,7 +14,9 @@ augroup reload_vimrc " {
 augroup END " }
 
 call plug#begin('~/.vim/plugged')
-Plug 'jacoborus/tender.vim'
+Plug 'rhysd/vim-clang-format'
+Plug 'nanotech/jellybeans.vim'
+Plug 'morhetz/gruvbox'
 Plug 'NLKNguyen/c-syntax.vim'
 Plug 'vim-python/python-syntax'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -30,7 +32,6 @@ Plug 'xuyuanp/nerdtree-git-plugin'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'fisadev/vim-isort'
 Plug 'tpope/vim-obsession'
 Plug 'dhruvasagar/vim-prosession'
 Plug 'jiangmiao/auto-pairs'
@@ -102,25 +103,25 @@ let g:fzf_commits_log_options = '--graph --color=always
 
 
 " coc.nvim
-" use <tab> for trigger completion and navigate to next complete item
-
 let g:coc_global_extensions = [
     \ 'coc-pyright',
     \ 'coc-json',
-    \ 'coc-clangd',
     \ 'coc-cmake',
-    \ 'coc-go'
+    \ 'coc-go',
+    \ 'coc-prettier',
     \ ]
 
-function! s:check_back_space() abort
+" use <tab> for trigger completion and navigate to next complete item
+function! CheckBackSpace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackSpace() ? "\<Tab>" :
+      \ coc#refresh()">"
 
 "Close preview window when completion is done.
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
@@ -132,7 +133,6 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <silent> gx :CocCommand clangd.switchSourceHeader<cr>
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -151,6 +151,11 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 let g:cursorhold_updatetime = 100
 nnoremap <leader>rn <Plug>(coc-rename)
 
+let g:clang_format#style_options = {
+            \ "AlignAfterOpenBracket" : "ContinuationIndentWidth"
+            \ }
+vnoremap <leader>f :ClangFormat<CR>
+
 " coc.nvim color changes
 hi! link CocErrorSign WarningMsg
 hi! link CocWarningSign Number
@@ -159,13 +164,13 @@ hi! link CocInfoSign Type
 
 let python_highlight_all = 1
 
-set background=dark
-let g:airline_theme='tender'
-colorscheme tender
+let g:airline_theme='gruvbox'
+colorscheme gruvbox
+set bg=dark
 
 " air-line
 let g:airline_powerline_fonts = 1
-"
+
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
@@ -187,6 +192,9 @@ let g:tmux_navigator_save_on_switch = 2
 let g:tmux_navigator_disable_when_zoomed = 1
 
 set statusline^=%{coc#status()}
+
+" ############ Easy Align options ###########
+
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 
@@ -194,10 +202,14 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 let g:easy_align_delimiters = {
-  \ '\': {
-  \     'pattern': '\\$',
-  \ },
-  \ }
+\ '/': {
+\     'pattern':         '//\+\|/\*\|\*/',
+\     'delimiter_align': 'l',
+\     'ignore_groups':   ['!Comment'] },
+\ }
+
+" ###########################################
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
@@ -298,7 +310,6 @@ set shiftwidth=4
 set tabstop=4
 
 if has("autocmd")
-    " 1 tab == 4 spaces
     au FileType python setlocal shiftwidth=4 tabstop=4
     au FileType go setlocal shiftwidth=4 tabstop=4
     au FileType c setlocal shiftwidth=2 tabstop=2 cindent
@@ -306,6 +317,7 @@ if has("autocmd")
     au FileType cpp setlocal shiftwidth=2 tabstop=2 cindent
     au FileType objcpp setlocal shiftwidth=2 tabstop=2 cindent
     au FileType cmake setlocal shiftwidth=2 tabstop=2 cindent
+    au FileType yaml setlocal shiftwidth=2 tabstop=2
     au FileType sh setlocal shiftwidth=4 tabstop=4
     au BufNewFile,BufRead *.metal set syntax=cpp
 endif
@@ -326,14 +338,13 @@ set tm=500
 
 set scrolloff=10
 
-
 "close the current buffer
 map <leader>bd :bd<cr>
 map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
 map <leader>p :setlocal paste!<cr>
 nnoremap <leader>w :w<cr>
-nnoremap <leader>b oimport ipdb; ipdb.set_trace()<Esc>
+nnoremap <leader>b oimport ipdb;ipdb.set_trace()<Esc>
 nnoremap <leader>s *``
 nnoremap <leader>t :terminal<cr>
 
@@ -343,6 +354,9 @@ nnoremap <silent> <cr> :noh<cr><esc>
 
 nnoremap <C-e> <C-e><C-e>
 nnoremap <C-y> <C-y><C-y>
+
+" Copy to clipboard
+vnoremap <C-c> "+y
 
 " indent code
 vnoremap < <gv
@@ -355,6 +369,7 @@ vnoremap K :m '<-2<CR>gv=gv
 noremap <leader>z <c-w>_ \| <c-w>\|
 noremap <leader>zz <c-w>=
 noremap <leader>d <c-w>q
+noremap <leader>ex <c-w>20>
 
 function! s:SortTimeStamps(lhs, rhs)
   return a:lhs[1] > a:rhs[1] ?  1
@@ -386,4 +401,4 @@ if has('nvim-0.4.3') || has('patch-8.2.0750')
     nnoremap <nowait><expr> <up> coc#float#has_scroll() ? coc#float#scroll(0) : "\<up>"
     inoremap <nowait><expr> <down> coc#float#has_scroll() ?  "\<c-r>=coc#float#scroll(1)\<cr>" : "\<down>"
     inoremap <nowait><expr> <up> coc#float#has_scroll() ?  "\<c-r>=coc#float#scroll(0)\<cr>" : "\<up>"
-        endif
+endif
