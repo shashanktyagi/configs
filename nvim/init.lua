@@ -299,7 +299,7 @@ vim.opt.shiftwidth = 2
 vim.opt.smartindent = true
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
-vim.opt.updatetime = 250
+vim.opt.updatetime = 100
 
 -- Line numbers
 vim.opt.relativenumber = true
@@ -320,6 +320,9 @@ vim.opt.smartcase = true
 vim.opt.cpoptions = vim.opt.cpoptions + "$"
 vim.opt.colorcolumn = "80"
 vim.opt.cursorline = true
+
+-- No swap file
+vim.opt.swapfile = false
 
 ----------------------------------- Mappings ----------------------------------
 
