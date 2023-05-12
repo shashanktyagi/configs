@@ -24,10 +24,15 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
 
-  { -- Theme
-    "savq/melange-nvim",
+  {
+    "norcalli/nvim-colorizer.lua"
+  },
+
+  {
+    "metalelf0/jellybeans-nvim",
+    dependencies = { "rktjmp/lush.nvim" },
     config = function()
-       vim.cmd "colorscheme melange"
+       vim.cmd "colorscheme jellybeans-nvim"
     end,
   },
 
@@ -85,29 +90,38 @@ require('lazy').setup({
   },
 
   { -- Highlight, edit, and navigate code
-    'nvim-treesitter/nvim-treesitter',
+    "nvim-treesitter/nvim-treesitter",
     dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
+      "nvim-treesitter/nvim-treesitter-textobjects",
     },
-    cmd = { "TSInstall", "TSBufEnable", "TSBufDisable", "TSModuleInfo" },
     build = ":TSUpdate",
-    config = function()
-      require("nvim-treesitter").setup({
-        ensure_installed = {
-          "vim",
-          "lua",
-          "python",
-          "c",
-          "json",
-        },
-
-        highlight = {
-          enable = true,
-          use_languagetree = true,
-        },
-
-        indent = { enable = true },
-      })
+    event = "BufReadPost",
+    opts = {
+      sync_install = false,
+      ensure_installed = {
+        "c",
+        "python",
+        "bash",
+        "dockerfile",
+        "lua",
+        "markdown",
+        "markdown_inline",
+        "regex",
+        "vim",
+        "yaml",
+        "json",
+      },
+      highlight = { enable = true },
+      indent = { enable = true, disable = { "python", "c" } },
+      matchup = {
+        enable = true,
+      },
+      endwise = {
+        enable = true,
+      },
+    },
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
     end,
   },
 
@@ -166,23 +180,37 @@ require('lazy').setup({
       lsp.ensure_installed({
         "clangd",
         "pyright",
+        "pylsp",
       })
+      require('lspconfig').clangd.setup {
+        cmd = {
+            "clangd",
+            "--background-index",
+        },
+        filetypes = { "c", "cpp", "objc", "objcpp" },
+      }
       lsp.on_attach(function(client, bufnr)
         local opts = {buffer = bufnr, remap = false}
 
         vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
         vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, opts)
         vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-        vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-        vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+        vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, opts)
+        vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, opts)
         vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
         -- Switch between source and header.
         vim.keymap.set("n", "gx", ":ClangdSwitchSourceHeader<cr>")
+        vim.diagnostic.config({
+          virtual_text = false, -- Turn off inline diagnostics
+        })
+
+        -- Floating diagnostics.
+        vim.cmd(
+          "autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})"
+        )
+
       end)
       lsp.setup()
-      vim.diagnostic.config({
-          virtual_text = true
-      })
 
       local has_words_before = function()
         unpack = unpack or table.unpack
@@ -280,12 +308,23 @@ require('lazy').setup({
   },
   {
     "tpope/vim-rhubarb"
-  }
+  },
+
+  { -- Zoom a pane as a floating window.
+    "folke/zen-mode.nvim",
+    config = function()
+      require("zen-mode").setup {
+        width = 0.90
+      }
+      vim.keymap.set("n", "<leader>z", ":ZenMode<cr>")
+    end
+  },
+
 }, {})
 
 ---------------------------- General Configuration ----------------------------
 -- Set highlight on search
-vim.o.hlsearch = true
+vim.opt.hlsearch = true
 
 -- Splits
 vim.opt.splitbelow = true
@@ -300,6 +339,7 @@ vim.opt.smartindent = true
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.updatetime = 100
+vim.opt.cindent = true
 
 -- Line numbers
 vim.opt.relativenumber = true
@@ -324,6 +364,56 @@ vim.opt.cursorline = true
 -- No swap file
 vim.opt.swapfile = false
 
+-- See `:help vim.highlight.on_yank()`
+local highlight_group = vim.api.nvim_create_augroup(
+"YankHighlight", { clear = true })
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = "*",
+})
+
+-- go to last loc when opening a buffer
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
+})
+
+-- Got chatGPT to write this function. :P
+function delete_hidden_buffers()
+  local tpbl = {}
+  for i=1, vim.fn.tabpagenr('$') do
+    local tabpagebuflist = vim.fn.tabpagebuflist(i)
+    for _, bufnr in ipairs(tabpagebuflist) do
+      table.insert(tpbl, bufnr)
+    end
+  end
+  local deleted = false
+  for bufnr=1, vim.fn.bufnr('$') do
+    if vim.api.nvim_buf_is_valid(bufnr) and not vim.tbl_contains(tpbl, bufnr) then
+      local ok, err = pcall(function()
+        vim.cmd('silent bwipeout ' .. bufnr)
+      end)
+      if not ok then
+        print("Error deleting buffer " .. bufnr .. ": " .. err)
+      else
+        deleted = true
+      end
+    end
+  end
+  if not deleted then
+    print("No hidden buffers to delete")
+  end
+end
+vim.cmd('command! DeleteHiddenBuffers lua delete_hidden_buffers()')
+
 ----------------------------------- Mappings ----------------------------------
 
 -- Save a buffer.
@@ -336,10 +426,6 @@ vim.keymap.set("n", "gp", "'[v']")
 -- Indent code.
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
--- Zoom vim pane.
-vim.keymap.set("n", "<leader>z", "<c-w>_ | <c-w>|")
--- Make all panes of equal size.
-vim.keymap.set("n", "<leader>zz", "<c-w>=")
 -- Quit a buffer.
 vim.keymap.set("n", "<leader>q", "<c-w>q")
 -- Vertical editing.
@@ -347,8 +433,11 @@ vim.keymap.set("n", "<leader>v", "<c-v>")
 -- Exchange buffers.
 vim.keymap.set("n", "<leader>x", "<c-w>x")
 -- Return to remove highlight.
-vim.keymap.set("n", "<cr>", ":noh<cr><esc>")
+vim.keymap.set("n", "<leader><cr>", ":noh<cr><esc>")
 -- Search but don't move the cursor.
 vim.keymap.set("n", "*", "*``")
 -- Copy to system clipboard.
 vim.keymap.set("v", "<c-c>", '"+y');
+-- Python breakpoint
+vim.keymap.set("n", "<leader>b", "oimport ipdb;ipdb.set_trace()<esc>");
+vim.keymap.set("t", "<esc>", "<c-\\><c-n>");
