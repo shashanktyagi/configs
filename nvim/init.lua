@@ -182,6 +182,7 @@ require('lazy').setup({
         "pyright",
         "pylsp",
       })
+
       require('lspconfig').clangd.setup {
         cmd = {
             "clangd",
@@ -189,6 +190,38 @@ require('lazy').setup({
         },
         filetypes = { "c", "cpp", "objc", "objcpp" },
       }
+
+      require('lspconfig').pyright.setup{
+        capabilities = capabilities,
+        handlers = handlers,
+        on_attach = on_attach,
+        before_init = function(_, config)
+          config.settings.python.pythonPath = "~/pytorch_models/venv/bin/python"
+        end,
+        settings = {
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              disableOrganizeImports = true,
+            },
+          },
+        },
+      }
+
+      require('lspconfig').pylsp.setup {
+        settings = {
+          pylsp = {
+            plugins = {
+              pycodestyle = {
+                ignore = {'W391', 'W503', 'E203'},
+                maxLineLength = 80
+              }
+            }
+          }
+        }
+      }
+
       lsp.on_attach(function(client, bufnr)
         local opts = {buffer = bufnr, remap = false}
 
@@ -313,10 +346,13 @@ require('lazy').setup({
   { -- Zoom a pane as a floating window.
     "folke/zen-mode.nvim",
     config = function()
-      require("zen-mode").setup {
-        width = 0.90
-      }
-      vim.keymap.set("n", "<leader>z", ":ZenMode<cr>")
+      vim.keymap.set("n", "<leader>z", function()
+        require("zen-mode").toggle ({
+          window = {
+            width = 0.60
+          }
+        })
+      end)
     end
   },
 
