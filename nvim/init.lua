@@ -179,7 +179,6 @@ require('lazy').setup({
       lsp.preset("recommended")
       lsp.ensure_installed({
         "clangd",
-        "pyright",
         "pylsp",
       })
 
@@ -189,24 +188,6 @@ require('lazy').setup({
             "--background-index",
         },
         filetypes = { "c", "cpp", "objc", "objcpp" },
-      }
-
-      require('lspconfig').pyright.setup{
-        capabilities = capabilities,
-        handlers = handlers,
-        on_attach = on_attach,
-        before_init = function(_, config)
-          config.settings.python.pythonPath = "~/pytorch_models/venv/bin/python"
-        end,
-        settings = {
-          python = {
-            analysis = {
-              autoSearchPaths = true,
-              useLibraryCodeForTypes = true,
-              disableOrganizeImports = true,
-            },
-          },
-        },
       }
 
       require('lspconfig').pylsp.setup {
@@ -256,9 +237,16 @@ require('lazy').setup({
       local cmp = require("cmp")
       cmp.setup({
         sources = {
-            {name = "nvim_lsp"},
-            {name = "path" },
-            {name = "buffer"},
+          {name = "nvim_lsp"},
+          {name = "path" },
+          {
+            name = "buffer",
+            option = {
+              get_bufnrs = function()
+                return vim.api.nvim_list_bufs()
+              end
+            },
+          },
         },
         mapping = {
               -- Tab to cycle forward through the autocompletion.
@@ -354,6 +342,12 @@ require('lazy').setup({
         })
       end)
     end
+  },
+  {
+    "Vimjas/vim-python-pep8-indent"
+  },
+  {
+    "junegunn/vim-easy-align"
   },
 
 }, {})
@@ -477,3 +471,14 @@ vim.keymap.set("v", "<c-c>", '"+y');
 -- Python breakpoint
 vim.keymap.set("n", "<leader>b", "oimport ipdb;ipdb.set_trace()<esc>");
 vim.keymap.set("t", "<esc>", "<c-\\><c-n>");
+
+vim.api.nvim_exec([[
+  let g:easy_align_delimiters = {
+    \ '/': {
+    \     'pattern':         '//\+\|/\*\|\*/',
+    \     'delimiter_align': 'l',
+    \     'ignore_groups':   ['!Comment'] 
+    \ },
+    \ }
+]], false)
+vim.keymap.set("v", "ga", ":EasyAlign")
