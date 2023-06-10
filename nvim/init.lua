@@ -67,7 +67,7 @@ require('lazy').setup({
       pcall(require('telescope').load_extension, 'fzf')
 
       local builtin = require('telescope.builtin')
-      vim.keymap.set('n', '<c-p>', builtin.git_files)
+      vim.keymap.set('n', '<leader>f', builtin.git_files)
       vim.keymap.set('n', '<leader>m', builtin.buffers)
       vim.keymap.set('n', '<leader>r', builtin.oldfiles)
       -- Requires ripgrep.
@@ -146,10 +146,10 @@ require('lazy').setup({
       nvim_tmux_nav.setup{
         disable_when_zoomed = true
       }
-      vim.keymap.set('n', "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
-      vim.keymap.set('n', "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
-      vim.keymap.set('n', "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
-      vim.keymap.set('n', "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
+      vim.keymap.set('n', "<leader>h", nvim_tmux_nav.NvimTmuxNavigateLeft)
+      vim.keymap.set('n', "<leader>j", nvim_tmux_nav.NvimTmuxNavigateDown)
+      vim.keymap.set('n', "<leader>k", nvim_tmux_nav.NvimTmuxNavigateUp)
+      vim.keymap.set('n', "<leader>l", nvim_tmux_nav.NvimTmuxNavigateRight)
     end,
   },
 
@@ -179,7 +179,7 @@ require('lazy').setup({
       lsp.preset("recommended")
       lsp.ensure_installed({
         "clangd",
-        "pylsp",
+        "pyright"
       })
 
       require('lspconfig').clangd.setup {
@@ -190,14 +190,28 @@ require('lazy').setup({
         filetypes = { "c", "cpp", "objc", "objcpp" },
       }
 
-      require('lspconfig').pylsp.setup {
+      -- require('lspconfig').pylsp.setup {
+      --   settings = {
+      --     pylsp = {
+      --       plugins = {
+      --         pycodestyle = {
+      --           ignore = {'W391', 'W503', 'E203'},
+      --           maxLineLength = 80
+      --         }
+      --       }
+      --     }
+      --   }
+      -- }
+
+      require('lspconfig').pyright.setup {
         settings = {
-          pylsp = {
-            plugins = {
-              pycodestyle = {
-                ignore = {'W391', 'W503', 'E203'},
-                maxLineLength = 80
-              }
+          pyright = {
+          },
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              diagnosticMode = 'openFilesOnly',
+              useLibraryCodeForTypes = true,
             }
           }
         }
@@ -260,7 +274,7 @@ require('lazy').setup({
                 end
               end, { "i", "s" }),
               -- Shift-Tab to cycle backward through the autocompletion.
-              ["<S-Tab>"] = cmp.mapping(function(fallback)
+              ["<A-Tab>"] = cmp.mapping(function(fallback)
                   if cmp.visible() then
                     cmp.select_prev_item()
                   else
@@ -352,6 +366,19 @@ require('lazy').setup({
 
 }, {})
 
+----------------------------- Pluging Settings --------------------------------
+
+vim.api.nvim_exec([[
+  let g:easy_align_delimiters = {
+    \ '/': {
+    \     'pattern':         '//\+\|/\*\|\*/',
+    \     'delimiter_align': 'l',
+    \     'ignore_groups':   ['!Comment'] 
+    \ },
+    \ }
+]], false)
+vim.keymap.set("v", "ga", ":EasyAlign")
+
 ---------------------------- General Configuration ----------------------------
 -- Set highlight on search
 vim.opt.hlsearch = true
@@ -416,7 +443,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
--- Got chatGPT to write this function. :P
 function delete_hidden_buffers()
   local tpbl = {}
   for i=1, vim.fn.tabpagenr('$') do
@@ -471,14 +497,6 @@ vim.keymap.set("v", "<c-c>", '"+y');
 -- Python breakpoint
 vim.keymap.set("n", "<leader>b", "oimport ipdb;ipdb.set_trace()<esc>");
 vim.keymap.set("t", "<esc>", "<c-\\><c-n>");
-
-vim.api.nvim_exec([[
-  let g:easy_align_delimiters = {
-    \ '/': {
-    \     'pattern':         '//\+\|/\*\|\*/',
-    \     'delimiter_align': 'l',
-    \     'ignore_groups':   ['!Comment'] 
-    \ },
-    \ }
-]], false)
-vim.keymap.set("v", "ga", ":EasyAlign")
+vim.keymap.set("x", "<leader>p", [["_dP]])
+vim.keymap.set("n", "<A-u>", "5j5<C-e>")
+vim.keymap.set("n", "<A-d>", "5k5<C-y>")
