@@ -66,14 +66,28 @@ require('lazy').setup({
     config = function()
       pcall(require('telescope').load_extension, 'fzf')
 
+      require("telescope").setup({
+        defaults = {
+          mappings = {
+            -- Exit with single escape.
+            i = {
+              ["<Esc>"] = "close",
+              ["<C-c>"] = false,
+            },
+          },
+        }
+      })
+
       local builtin = require('telescope.builtin')
-      vim.keymap.set('n', '<leader>f', builtin.git_files)
+      vim.keymap.set('n', '<leader>f', builtin.find_files)
+      vim.keymap.set('n', '<leader>r', builtin.oldfiles)
       vim.keymap.set('n', '<leader>m', builtin.buffers)
       vim.keymap.set('n', '<leader>r', builtin.oldfiles)
       -- Requires ripgrep.
       vim.keymap.set('n', '<leader>ag', builtin.live_grep)
       -- Fuzzy search word under cursor.
-      vim.keymap.set('n', '<leader>s', function()
+      vim.keymap.set('n', '<leader>s',
+        function()
           builtin.grep_string()
         end)
 
@@ -100,6 +114,7 @@ require('lazy').setup({
       sync_install = false,
       ensure_installed = {
         "c",
+        "cpp",
         "python",
         "bash",
         "dockerfile",
@@ -146,10 +161,10 @@ require('lazy').setup({
       nvim_tmux_nav.setup{
         disable_when_zoomed = true
       }
-      vim.keymap.set('n', "<leader>h", nvim_tmux_nav.NvimTmuxNavigateLeft)
-      vim.keymap.set('n', "<leader>j", nvim_tmux_nav.NvimTmuxNavigateDown)
-      vim.keymap.set('n', "<leader>k", nvim_tmux_nav.NvimTmuxNavigateUp)
-      vim.keymap.set('n', "<leader>l", nvim_tmux_nav.NvimTmuxNavigateRight)
+      vim.keymap.set('n', "<A-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
+      vim.keymap.set('n', "<A-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
+      vim.keymap.set('n', "<A-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
+      vim.keymap.set('n', "<A-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
     end,
   },
 
@@ -179,7 +194,7 @@ require('lazy').setup({
       lsp.preset("recommended")
       lsp.ensure_installed({
         "clangd",
-        "pyright"
+        "pyright",
       })
 
       require('lspconfig').clangd.setup {
@@ -190,29 +205,15 @@ require('lazy').setup({
         filetypes = { "c", "cpp", "objc", "objcpp" },
       }
 
-      -- require('lspconfig').pylsp.setup {
-      --   settings = {
-      --     pylsp = {
-      --       plugins = {
-      --         pycodestyle = {
-      --           ignore = {'W391', 'W503', 'E203'},
-      --           maxLineLength = 80
-      --         }
-      --       }
-      --     }
-      --   }
-      -- }
-
       require('lspconfig').pyright.setup {
         settings = {
-          pyright = {
-          },
           python = {
             analysis = {
+              typeCheckingMode = "basic",
               autoSearchPaths = true,
               diagnosticMode = 'openFilesOnly',
               useLibraryCodeForTypes = true,
-            }
+            },
           }
         }
       }
@@ -220,7 +221,7 @@ require('lazy').setup({
       lsp.on_attach(function(client, bufnr)
         local opts = {buffer = bufnr, remap = false}
 
-        vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+        vim.keymap.set("n", "gd", function() vim.lsp.buf.definition({jump_type="split"}) end, opts)
         vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, opts)
         vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
         vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, opts)
@@ -351,7 +352,7 @@ require('lazy').setup({
       vim.keymap.set("n", "<leader>z", function()
         require("zen-mode").toggle ({
           window = {
-            width = 0.60
+            width = 0.50
           }
         })
       end)
@@ -362,6 +363,9 @@ require('lazy').setup({
   },
   {
     "junegunn/vim-easy-align"
+  },
+  {
+    "bronson/vim-trailing-whitespace"
   },
 
 }, {})
@@ -500,3 +504,6 @@ vim.keymap.set("t", "<esc>", "<c-\\><c-n>");
 vim.keymap.set("x", "<leader>p", [["_dP]])
 vim.keymap.set("n", "<A-u>", "5j5<C-e>")
 vim.keymap.set("n", "<A-d>", "5k5<C-y>")
+vim.keymap.set("n", "<leader>o", "<c-o>")
+vim.keymap.set("n", "<leader>i", "<c-i>")
+vim.keymap.set("n", "<leader>6", "<c-6>")
