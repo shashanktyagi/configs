@@ -110,6 +110,8 @@ require('lazy').setup({
         "vim",
         "yaml",
         "json",
+        "rust",
+        "toml",
       },
       highlight = { enable = true },
       indent = { enable = true, disable = { "python", "c" } },
@@ -179,7 +181,8 @@ require('lazy').setup({
       lsp.preset("recommended")
       lsp.ensure_installed({
         "clangd",
-        "pyright"
+        "pyright",
+        "rust_analyzer",
       })
 
       require('lspconfig').clangd.setup {
