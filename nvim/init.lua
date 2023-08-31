@@ -82,7 +82,6 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>f', builtin.find_files)
       vim.keymap.set('n', '<leader>r', builtin.oldfiles)
       vim.keymap.set('n', '<leader>m', builtin.buffers)
-      vim.keymap.set('n', '<leader>r', builtin.oldfiles)
       -- Requires ripgrep.
       vim.keymap.set('n', '<leader>ag', builtin.live_grep)
       -- Fuzzy search word under cursor.
@@ -96,8 +95,8 @@ require('lazy').setup({
        function()
         local builtin = require('telescope.builtin')
         builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
+          winblend = 0,
+          previewer = True,
         })
       end)
     end,
@@ -163,10 +162,10 @@ require('lazy').setup({
       nvim_tmux_nav.setup{
         disable_when_zoomed = true
       }
-      vim.keymap.set('n', "<A-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
-      vim.keymap.set('n', "<A-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
-      vim.keymap.set('n', "<A-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
-      vim.keymap.set('n', "<A-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
+      vim.keymap.set('n', "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
+      vim.keymap.set('n', "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
+      vim.keymap.set('n', "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
+      vim.keymap.set('n', "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
     end,
   },
 
@@ -186,8 +185,8 @@ require('lazy').setup({
 
       -- Autocompletion
       {'hrsh7th/nvim-cmp'},
-      {'hrsh7th/cmp-path'}, 
-      {'hrsh7th/cmp-buffer'}, 
+      {'hrsh7th/cmp-path'},
+      {'hrsh7th/cmp-buffer'},
       {'hrsh7th/cmp-nvim-lsp'},
       {'L3MON4D3/LuaSnip'},
     },
@@ -215,7 +214,7 @@ require('lazy').setup({
               typeCheckingMode = "basic",
               autoSearchPaths = true,
               diagnosticMode = 'openFilesOnly',
-              useLibraryCodeForTypes = true,
+              useLibraryCodeForTypes = false,
             },
           }
         }
@@ -380,7 +379,7 @@ vim.api.nvim_exec([[
     \ '/': {
     \     'pattern':         '//\+\|/\*\|\*/',
     \     'delimiter_align': 'l',
-    \     'ignore_groups':   ['!Comment'] 
+    \     'ignore_groups':   ['!Comment']
     \ },
     \ }
 ]], false)
@@ -393,8 +392,19 @@ vim.opt.hlsearch = true
 -- Splits
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.timeoutlen = 400
+
+-- Timeouts
+vim.opt.timeout = true
+vim.opt.timeoutlen = 3000
+vim.opt.ttimeoutlen = 100
 vim.opt.undofile = true
+
+
+-- A buffer becomes hidden when it is abandoned
+vim.opt.hid = true
+
+-- Minimum number of lines to show below/above the current cursor location.
+vim.opt.scrolloff = 5
 
 -- Indenting
 vim.opt.expandtab = true
@@ -500,13 +510,14 @@ vim.keymap.set("n", "<leader><cr>", ":noh<cr><esc>")
 -- Search but don't move the cursor.
 vim.keymap.set("n", "*", "*``")
 -- Copy to system clipboard.
-vim.keymap.set("v", "<c-c>", '"+y');
+vim.keymap.set("v", "<C-c>", '"+y');
 -- Python breakpoint
 vim.keymap.set("n", "<leader>b", "oimport ipdb;ipdb.set_trace()<esc>");
+
 vim.keymap.set("t", "<esc>", "<c-\\><c-n>");
 vim.keymap.set("x", "<leader>p", [["_dP]])
-vim.keymap.set("n", "<A-u>", "5j5<C-e>")
-vim.keymap.set("n", "<A-d>", "5k5<C-y>")
+vim.keymap.set("n", "<C-u>", "5j5<C-e>")
+vim.keymap.set("n", "<C-d>", "5k5<C-y>")
 vim.keymap.set("n", "<leader>o", "<c-o>")
 vim.keymap.set("n", "<leader>i", "<c-i>")
 vim.keymap.set("n", "<leader>6", "<c-6>")
