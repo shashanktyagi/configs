@@ -47,13 +47,7 @@ require('lazy').setup({
     end,
   },
 
-  { -- Add indentation guides.
-    'lukas-reineke/indent-blankline.nvim',
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-    },
-  },
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 
   -- "gc" to comment visual block (linewise comment)
   -- "gb" to comment visual block (blockwise comment)
@@ -150,7 +144,8 @@ require('lazy').setup({
     config = function()
       require("nvim-tree").setup {
         vim.api.nvim_set_keymap("n", "<C-n>", ":NvimTreeToggle<cr>",
-          {silent = true, noremap = true})
+          {silent = true, noremap = true}),
+        view = {adaptive_size = true}
       }
     end,
   },
@@ -368,6 +363,27 @@ require('lazy').setup({
   },
   {
     "bronson/vim-trailing-whitespace"
+  },
+  {
+    'stevearc/aerial.nvim',
+    opts = {},
+    -- Optional dependencies
+    dependencies = {
+       "nvim-treesitter/nvim-treesitter",
+       "nvim-tree/nvim-web-devicons"
+    },
+    config = function()
+      require("aerial").setup({
+        -- optionally use on_attach to set keymaps when aerial has attached to a buffer
+        on_attach = function(bufnr)
+            -- Jump forwards/backwards with '{' and '}'
+            vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+            vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+        end,
+      })
+      -- You probably also want to set a keymap to toggle aerial
+      vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
+    end
   },
 
 }, {})
