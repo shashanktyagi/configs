@@ -47,7 +47,15 @@ require('lazy').setup({
     end,
   },
 
-  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
+  { "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    opts = {},
+    config = function()
+      require("ibl").setup {
+        scope = { enabled = false },
+      }
+    end
+  },
 
   -- "gc" to comment visual block (linewise comment)
   -- "gb" to comment visual block (blockwise comment)
@@ -382,7 +390,7 @@ require('lazy').setup({
         end,
       })
       -- You probably also want to set a keymap to toggle aerial
-      vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
+      vim.keymap.set("n", "<leader>aa", "<cmd>AerialToggle!<CR>")
     end
   },
 
