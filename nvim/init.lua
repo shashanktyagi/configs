@@ -29,7 +29,7 @@ require('lazy').setup({
   },
 
   {
-    "metalelf0/jellybeans-nvim",
+    "shashanktyagi/jellybeans-nvim",
     dependencies = { "rktjmp/lush.nvim" },
     config = function()
        vim.cmd "colorscheme jellybeans-nvim"
@@ -214,7 +214,7 @@ require('lazy').setup({
         settings = {
           python = {
             analysis = {
-              typeCheckingMode = "basic",
+              typeCheckingMode = "standard",
               autoSearchPaths = true,
               diagnosticMode = 'openFilesOnly',
               useLibraryCodeForTypes = false,
@@ -531,8 +531,7 @@ vim.keymap.set("n", "<leader>v", "<c-v>")
 vim.keymap.set("n", "<leader>x", "<c-w>x")
 -- Return to remove highlight.
 vim.keymap.set("n", "<leader><cr>", ":noh<cr><esc>")
--- Search but don't move the cursor.
-vim.keymap.set("n", "*", "*``")
+-- vim.keymap.set("n", "*", "*``")
 -- Copy to system clipboard.
 vim.keymap.set("v", "<C-c>", '"+y');
 -- Python breakpoint
@@ -545,3 +544,26 @@ vim.keymap.set("n", "<C-d>", "5k5<C-y>")
 vim.keymap.set("n", "<leader>o", "<c-o>")
 vim.keymap.set("n", "<leader>i", "<c-i>")
 vim.keymap.set("n", "<leader>6", "<c-6>")
+
+-- Search but don't move the cursor.
+function smart_star()
+  -- Save current position
+  local original_pos = vim.api.nvim_win_get_cursor(0)
+
+  -- Perform the search
+  vim.cmd('normal! *')
+
+  -- Check if cursor position changed after the search
+  local new_pos = vim.api.nvim_win_get_cursor(0)
+  if original_pos[1] == new_pos[1] and original_pos[2] == new_pos[2] then
+    -- If cursor hasn't moved, there was no other occurrence
+    vim.api.nvim_echo({{"No other occurrences found", "WarningMsg"}}, false, {})
+  else
+    -- If it moved, jump back to the original position
+    vim.cmd('normal! ``')
+  end
+end
+
+-- Set the keymap to use the new function
+vim.keymap.set('n', '*', smart_star)
+
