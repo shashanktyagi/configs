@@ -545,6 +545,14 @@ vim.keymap.set("n", "<leader>o", "<c-o>")
 vim.keymap.set("n", "<leader>i", "<c-i>")
 vim.keymap.set("n", "<leader>6", "<c-6>")
 
+if vim.fn.has("gui_gtk") == 1 or vim.fn.has("gui_gtk2") == 1 or vim.fn.has("gui_gnome") == 1 or vim.fn.has("unix") == 1 then
+  -- relative path (src/foo.txt)
+  vim.api.nvim_set_keymap('n', '<leader>cf', ':let @+=expand("%")<CR>', { noremap = true, silent = true })
+
+  -- absolute path (/something/src/foo.txt)
+  vim.api.nvim_set_keymap('n', '<leader>cF', ':let @+=expand("%:p")<CR>', { noremap = true, silent = true })
+end
+
 -- Search but don't move the cursor.
 function smart_star()
   -- Save current position
