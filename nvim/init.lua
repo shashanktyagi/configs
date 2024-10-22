@@ -70,6 +70,9 @@ require('lazy').setup({
 
       require("telescope").setup({
         defaults = {
+          preview = {
+            treesitter = false
+          },
           mappings = {
             -- Exit with single escape.
             i = {
