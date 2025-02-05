@@ -237,14 +237,26 @@ require('lazy').setup({
         vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
         -- Switch between source and header.
         vim.keymap.set("n", "gx", ":ClangdSwitchSourceHeader<cr>")
+
         vim.diagnostic.config({
           virtual_text = false, -- Turn off inline diagnostics
+          float = { border = "rounded" },
+        })
+        -- Floating diagnostics.
+        vim.api.nvim_create_autocmd("CursorHold", {
+          callback = function()
+            vim.defer_fn(function()
+                -- Check if any LSP client is attached to the current buffer
+                local clients = vim.lsp.get_active_clients({ bufnr = vim.api.nvim_get_current_buf() })
+                if #clients == 0 then
+                    return
+                end
+                -- Open diagnostics float
+                vim.diagnostic.open_float(nil, { focus = false })
+              end, 500)
+            end,
         })
 
-        -- Floating diagnostics.
-        vim.cmd(
-          "autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus=false})"
-        )
 
       end)
       lsp.setup()
@@ -317,7 +329,6 @@ require('lazy').setup({
 
   { -- Bufferline
     'akinsho/bufferline.nvim',
-    version = "v3.*",
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = true
   },
@@ -401,15 +412,13 @@ require('lazy').setup({
 
 ----------------------------- Pluging Settings --------------------------------
 
-vim.api.nvim_exec([[
-  let g:easy_align_delimiters = {
-    \ '/': {
-    \     'pattern':         '//\+\|/\*\|\*/',
-    \     'delimiter_align': 'l',
-    \     'ignore_groups':   ['!Comment']
-    \ },
-    \ }
-]], false)
+vim.g.easy_align_delimiters = {
+    ['/'] = {
+        pattern = '//+|/\\*|\\*/',
+        delimiter_align = 'l',
+        ignore_groups = { '!Comment' },
+    },
+}
 vim.keymap.set("v", "ga", ":EasyAlign")
 
 ---------------------------- General Configuration ----------------------------
